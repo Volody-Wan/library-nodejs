@@ -10,7 +10,16 @@ function passportConfig(app) {
   });
 
   passport.deserializeUser((user, done) => {
-    done(null, user);
+    const returningUser = {
+      username: user.username,
+      email: user.email,
+      profileImage: user.profileImage,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      twitter: user.twitter,
+      linkedIn: user.linkedIn,
+    };
+    done(null, returningUser);
   });
 }
 

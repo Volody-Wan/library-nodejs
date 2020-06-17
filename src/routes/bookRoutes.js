@@ -14,7 +14,7 @@ function router(nav) {
   });
   bookRouter.route('/').get((request, response) => {
     const url = 'mongodb://localhost:27017';
-    const dbName = 'libraryApp';
+    const dbName = 'librarian';
 
     (async function mongo() {
       let client;
@@ -29,7 +29,7 @@ function router(nav) {
         response.render('booksListView',
           {
             nav,
-            title: 'Library',
+            title: 'Books',
             books,
           });
       } catch (err) {
@@ -42,7 +42,7 @@ function router(nav) {
   bookRouter.route('/:id').get((request, response) => {
     const { id } = request.params;
     const url = 'mongodb://localhost:27017';
-    const dbName = 'libraryApp';
+    const dbName = 'librarian';
 
     (async function mongo() {
       let client;
@@ -58,7 +58,7 @@ function router(nav) {
         response.render('bookView',
           {
             nav,
-            title: 'Library',
+            title: 'Books',
             book,
           });
       } catch (err) {

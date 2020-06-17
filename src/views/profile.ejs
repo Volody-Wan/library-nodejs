@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title><%=title%></title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="/css/profile.css" rel="stylesheet">
+  <link href="/css/common.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Alexandria Library</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <% for (let i = 0; i < nav.length; i++) { %>
+          <li class="nav-item <% if ( nav[i].title == title) { %> active <% } %> ">
+            <a class="nav-link" href="<%= nav[i].link %>"><%= nav[i].title %>
+              <% if ( nav[i].title == title ) { %>
+              <span class="sr-only">(current)</span>
+              <% } %>
+            </a>
+          </li>
+        <% } %> 
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container jumbotron">
+    <div class="view-account">
+      <section class="module">
+        <div class="module-inner">
+          <div class="side-bar">
+            <div class="user-info">
+              <img class="img-profile img-circle img-responsive center-block" src="<%= user.profileImage %>" alt="">
+              <ul class="meta list list-unstyled">
+                <li class="name"><%= user.username %>
+                </li>
+                <li class="dont-break-out"><%= user.email %></li>
+              </ul>
+            </div>
+            <nav class="side-menu">
+              <ul class="nav">
+                <li class="active"><a href="#"><span class="fa fa-user"></span> Profile</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="content-panel">
+            <form class="form-horizontal">
+              <fieldset class="fieldset">
+                <h3 class="fieldset-title">Personal Info</h3>
+                <div class="form-group avatar">
+                  <figure class="figure col-md-2 col-sm-3 col-xs-12">
+                    <img class="img-rounded img-responsive" src="<%= user.profileImage %>" alt="">
+                  </figure>
+                  <!-- <div class="form-inline col-md-10 col-sm-9 col-xs-12">
+                    <input type="file" class="file-uploader pull-left">
+                    <button type="submit" class="btn btn-sm btn-default-alt pull-left">Update Image</button>
+                  </div> -->
+                </div>
+                <div class="form-group">
+                  <label class="col-md-2 col-sm-3 col-xs-12 control-label">User Name</label>
+                  <div class="col-md-10 col-sm-9 col-xs-12">
+                    <input type="text" class="form-control" value="<%= user.username %>">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 col-sm-3 col-xs-12 control-label">First Name</label>
+                  <div class="col-md-10 col-sm-9 col-xs-12">
+                    <input type="text" class="form-control" value="<%= user.firstname %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-2 col-sm-3 col-xs-12 control-label">Last Name</label>
+                  <div class="col-md-10 col-sm-9 col-xs-12">
+                    <input type="text" class="form-control" value="<%= user.lastname %>">
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset class="fieldset">
+                <h3 class="fieldset-title">Contact Info</h3>
+                <div class="form-group">
+                  <label class="col-md-2  col-sm-3 col-xs-12 control-label">Email</label>
+                  <div class="col-md-10 col-sm-9 col-xs-12">
+                    <input type="email" class="form-control" value="<%= user.email %>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-2  col-sm-3 col-xs-12 control-label">Twitter</label>
+                  <div class="col-md-10 col-sm-9 col-xs-12">
+                    <input type="text" class="form-control" value="<%= user.twitter %>">
+                    <p class="help-block">Your twitter username</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-2  col-sm-3 col-xs-12 control-label">Linkedin</label>
+                  <div class="col-md-10 col-sm-9 col-xs-12">
+                    <input type="url" class="form-control" value="<%= user.linkedin %>">
+                    <p class="help-block">eg. https://www.linkedin.com/in/yourname</p>
+                  </div>
+                </div>
+              </fieldset>
+              <hr>
+              <div class="form-group">
+                <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+                  <input class="btn btn-primary" type="submit" value="Update Profile">
+                </div>
+              </div>
+              <div class="form-group">
+                <a href="/auth/logout" class="btn btn-primary sign-out-btn">Logout!</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Alexandria Library 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

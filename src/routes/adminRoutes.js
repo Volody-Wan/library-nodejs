@@ -58,7 +58,7 @@ function router() {
   adminRouter.route('/')
     .get((request, response) => {
       const url = 'mongodb://localhost:27017';
-      const dbName = 'libraryApp';
+      const dbName = 'librarian';
 
       (async function mongo() {
         let client;

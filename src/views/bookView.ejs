@@ -2,156 +2,113 @@
 <html lang="en">
 
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
   <title><%=title%></title>
-  <meta name="generator" content="Bootply" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- Bootstrap core CSS -->
   <link href="/css/bootstrap.min.css" rel="stylesheet">
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
-  <!--[if lt IE 9]>
-			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-  <link href="/css/styles.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="/css/list-books-styles.css" rel="stylesheet">
+  <link href="/css/common.css" rel="stylesheet">
+
 </head>
 
 <body>
-  <header class="navbar navbar-bright navbar-fixed-top" role="banner">
+  <!-- Navigation -->
+  <nav id="navigation" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <div class="navbar-header">
-        <a href="/" class="navbar-brand">Home</a>
-        <% for (let i = 0; i < nav.length; i++) { %>
-          <a href="<%= nav[i].link %>" class="navbar-brand"> <%= nav[i].title %> </a>
-        <% } %>
+      <a class="navbar-brand" href="#">Alexandria Library</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <% for (let i = 0; i < nav.length; i++) { %>
+          <li class="nav-item <% if ( nav[i].title == title) { %> active <% } %> ">
+            <a class="nav-link" href="<%= nav[i].link %>"><%= nav[i].title %>
+              <% if ( nav[i].title == title ) { %>
+              <span class="sr-only">(current)</span>
+              <% } %>
+            </a>
+          </li>
+          <% } %>
+        </ul>
+      </div>
     </div>
-    <div class="navbar-header">
-      <form class="form-inline">
-          <button type="submit" class="btn btn-default pull-right navbar-brand">
-            <i class="glyphicon glyphicon-search"></i>
-          </button>
-          <input type="text" class="form-control pull-left" placeholder="Search">
-      </form>
-  </div>
-  </header>
+  </nav>
 
-  <div id="masthead">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-7">
-          <h1><%=title%>
-            <p class="lead"></p>
-          </h1>
-        </div>
-        <div class="col-md-5">
-          <div class="well well-lg">
-            <div class="row">
-              <div class="col-sm-12">
-
-
-              </div>
-            </div>
+  <!-- Page Content -->
+  <div id="content" class="container jumbotron book-jumbotron">
+    <!-- Page Features -->
+    <div class="row text-center">
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card h-100">
+          <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+          <div class="card-body">
+            <h4 class="card-title"><%= book.title %></h4>
+            <p class="card-text"><%= book.author %></p>
           </div>
         </div>
       </div>
-    </div><!-- /cont -->
+    </div>
+  </div>
+  <!-- /.container -->
 
+  <!-- Footer -->
+  <footer id="footer" class="py-5 bg-dark">
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="top-spacer"> </div>
-        </div>
-      </div>
-    </div><!-- /cont -->
-
-  </div>
-
-
-  <div class="container">
-    <div class="row">
-
-      <div class="col-md-12">
-
-        <div class="panel">
-          <div class="panel-body">
-
-            <div class="row">
-                <br>
-                <div class="col-md-2 col-sm-3 text-center">
-                    <a class="story-title" href="#"><img alt="" src="http://api.randomuser.me/portraits/thumb/men/58.jpg"
-                        style="width:100px;height:100px" class="img-circle"></a>
-                </div>
-                <div class="col-md-10 col-sm-9">
-                    <h3><%= book.title %></h3>
-                    <div class="row">
-                    <div class="col-xs-9">
-                        <h4><span class="label label-default"><%= book.author %></span></h4>
-                        <h4></h4>
-                    </div>
-                    <div class="col-xs-3"></div>
-                    </div>
-                    <br><br>
-                </div>
-                </div>
-                <hr>
-
-            <a href="/" class="btn btn-primary pull-right btnNext">More <i
-                class="glyphicon glyphicon-chevron-right"></i></a>
-
-
-          </div>
-        </div>
-
-
-
-      </div>
-      <!--/col-12-->
+      <p class="m-0 text-center text-white">Copyright &copy; Alexandria Library 2020</p>
     </div>
-  </div>
-
-
-  <hr>
-
-  <div class="container" id="footer">
-    <div class="row">
-      <div class="col col-sm-12">
-
-        <h1>Follow Us</h1>
-        <div class="btn-group">
-          <a class="btn btn-twitter btn-lg" href="#"><i class="icon-twitter icon-large"></i> Twitter</a>
-          <a class="btn btn-facebook btn-lg" href="#"><i class="icon-facebook icon-large"></i> Facebook</a>
-          <a class="btn btn-google-plus btn-lg" href="#"><i class="icon-google-plus icon-large"></i> Google+</a>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <hr>
-
-  <hr>
-
-  <footer>
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-6">
-          <ul class="list-inline">
-            <li><i class="icon-facebook icon-2x"></i></li>
-            <li><i class="icon-twitter icon-2x"></i></li>
-            <li><i class="icon-google-plus icon-2x"></i></li>
-            <li><i class="icon-pinterest icon-2x"></i></li>
-          </ul>
-
-        </div>
-        <div class="col-sm-6">
-          <p class="pull-right">Built with <i class="icon-heart-empty"></i> at <a
-              href="http://www.bootply.com">Bootply</a></p>
-        </div>
-      </div>
-    </div>
+    <!-- /.container -->
   </footer>
-  <!-- script references -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-  <script src="/js/bootstrap.min.js"></script>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function positionFooter() {
+      var footerHeight = 0,
+        footerTop = 0,
+        $footer = $("#footer");
+
+      footerHeight = $footer.height();
+      console.log($(window).height() );
+      console.log($(document.body).height());
+      console.log($footer.height());
+      console.log(($(window).height() > $(document.body).height() + $footer.height()));
+
+      if (($(window).height() > $(document.body).height() + $footer.height())) {
+        $footer.css({
+          bottom: 0
+        })
+        $footer.css({
+          width: "100%"
+        })
+        $footer.css({
+          position: 'absolute'
+        })
+      } else {
+        $footer.css({
+          position: 'relative'
+        })
+      }
+    }
+
+    $(window).bind("load", function () {
+      positionFooter();
+    });
+    $(window).resize(function () {
+      positionFooter();
+    });
+
+  </script>
+
 </body>
 
 </html>

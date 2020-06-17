@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <meta charset="UTF-8" />
+  <title><%= title %></title>
+  <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <link href="/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link href="/css/login.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <a class="hiddenanchor" id="toregister"></a>
+    <a class="hiddenanchor" id="tologin"></a>
+    <div id="wrapper">
+      <div id="login" class="row no-gutter animate">
+        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+        <div class="col-md-8 col-lg-6">
+          <div class="login d-flex align-items-center py-5">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-9 col-lg-8 mx-auto">
+                  <h3 class="login-heading mb-4">Welcome back!</h3>
+                  <form name="signInForm" action="/auth/signIn" method="post" autocomplete="on">
+                    <div class="form-label-group">
+                      <input type="text" id="username" name="username" class="form-control" placeholder="Username or Email address" required autofocus>
+                      <label for="username">Username or Email address</label>
+                      <% if ( invalidUser != null ) { %>
+                        <div class="error-alert">
+                          <label><%= invalidUser %></label>
+                        </div>
+                      <% } %>
+                    </div>
+    
+                    <div class="form-label-group">
+                      <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                      <label for="password">Password</label>
+                      <% if ( invalidPassword != null ) { %>
+                        <div class="error-alert">
+                          <label><%= invalidPassword %></label>
+                        </div>
+                      <% } %>
+                    </div>
+
+                    <div class="custom-control custom-checkbox mb-3">
+                      <input type="checkbox" class="custom-control-input" id="customCheck1">
+                      <label class="custom-control-label" for="customCheck1">Remember password</label>
+                    </div>
+                    
+                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Sign in</button>
+                    
+                    <div class="text-center">
+                      <a class="small" href="#">Forgot password?</a>
+                    </div>
+                  </form>
+                  
+                  <div>
+                    <label>
+                      Not a member yet ? <a href="#toregister" class="to_register">Join us</a>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="register" class="row no-gutter animate">
+        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+        <div class="col-md-8 col-lg-6">
+          <div class="login d-flex align-items-center py-5">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-9 col-lg-8 mx-auto">
+                  <h3 class="login-heading mb-4">Welcome back!</h3>
+                  <form name="signUpForm" action="/auth/signUp" method="post" autocomplete="on">
+                    <div class="form-label-group">
+                      <input type="text" id="usernameSignup" name="usernameSignup" class="form-control" placeholder="Username" required autofocus>
+                      <label for="usernameSignup">Username</label>
+                      <% if ( usernameInUse != null ) { %>
+                        <div class="error-alert">
+                          <label><%= usernameInUse %></label>
+                        </div>
+                      <% } %>
+                    </div>
+
+                    <div class="form-label-group">
+                      <input type="email" id="emailSignup" name="emailSignup" class="form-control" placeholder="Email address" required>
+                      <label for="emailSignup">Email address</label>
+                      <% if ( emailInUse != null ) { %>
+                        <div class="error-alert">
+                          <label><%= emailInUse %></label>
+                        </div>
+                      <% } %>
+                    </div>
+
+                    <div class="form-label-group">
+                      <input type="text" id="firstnameSignup" name="firstnameSignup" class="form-control" placeholder="First Name">
+                      <label for="firstnameSignup">First Name</label>
+                    </div>
+
+                    <div class="form-label-group">
+                      <input type="text" id="lastnameSignup" name="lastnameSignup" class="form-control" placeholder="Last Name">
+                      <label for="lastnameSignup">Last Name</label>
+                    </div>
+    
+                    <div class="form-label-group">
+                      <input type="password" id="passwordSignup" name="passwordSignup" class="form-control" placeholder="Password" required>
+                      <label for="passwordSignup">Password</label>
+                    </div>
+    
+                    <div class="form-label-group">
+                      <input type="password" id="confirmPasswordSignup" name="confirmPasswordSignup" class="form-control" placeholder="Password" required>
+                      <label for="confirmPasswordSignup">Confirm Password</label>
+                      <% if ( passwordsMissMatch != null ) { %>
+                        <div class="error-alert">
+                          <label><%= passwordsMissMatch %></label>
+                        </div>
+                      <% } %>
+                    </div>
+    
+                    <div class="custom-control custom-checkbox mb-3">
+                      <input type="checkbox" class="custom-control-input" id="customCheck1">
+                      <label class="custom-control-label" for="customCheck1">Remember password</label>
+                    </div>
+
+                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Sign in</button>
+                  </form>
+                  <div>
+                    <label>
+                      Already a member ? <a href="#tologin" class="to_register"> Go and log in </a>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
