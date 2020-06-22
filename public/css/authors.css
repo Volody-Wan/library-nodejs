@@ -1,13 +1,19 @@
 body {
   background: #f9f9fb;
 }
+
 .view-account {
   background: #FFFFFF;
   margin-top: 20px;
+  padding-top: 35px;
 }
+
 .view-account .side-bar {
-  padding-bottom: 30px
+  padding-bottom: 30px;
+  padding-left: 0;
+  padding-right: 0;
 }
+
 .view-account .side-bar .user-info {
   text-align: center;
   margin-bottom: 15px;
@@ -15,24 +21,24 @@ body {
   color: #616670;
   border-bottom: 1px solid #f3f3f3
 }
-.view-account .side-bar .user-info .img-profile {
-  width: 120px;
-  height: 120px;
-  margin-bottom: 15px
-}
+
 .view-account .side-bar .user-info .meta li {
   margin-bottom: 10px
 }
+
 .view-account .side-bar .user-info .meta li a {
   color: #616670
 }
+
 .view-account .side-bar .side-menu {
-  text-align: center
+  text-align: center;
 }
+
 .view-account .side-bar .side-menu .nav {
   display: inline-block;
   margin: 0 auto
 }
+
 .view-account .side-bar .side-menu .nav>li {
   font-size: 14px;
   margin-bottom: 0;
@@ -41,25 +47,30 @@ body {
   margin-right: 15px;
   margin-bottom: 15px
 }
+
 .view-account .side-bar .side-menu .nav>li>a {
   display: inline-block;
   color: #9499a3;
   padding: 5px;
   border-bottom: 2px solid transparent
 }
+
 .view-account .side-bar .side-menu .nav>li>a:hover {
   color: #616670;
   background: none
 }
+
 .view-account .side-bar .side-menu .nav>li.active a {
   color: #40babd;
   border-bottom: 2px solid #40babd;
   background: none;
   border-right: none
 }
+
 .view-account .content-panel {
   padding: 30px
 }
+
 .view-account .content-panel .fieldset-title {
   padding-bottom: 15px;
   border-bottom: 1px solid #eaeaf1;
@@ -67,17 +78,23 @@ body {
   color: #616670;
   font-size: 16px
 }
-.view-account .content-panel .avatar .figure img {
-  float: right;
-  width: 64px
+
+.references-label {
+  word-break: break-word;
+  padding-left: 16px;
 }
+
 @media (max-width:767px) {
+  .view-account .side-bar .side-menu .nav>li>a {
+    padding: 0;
+  }
+  .portrait {
+    max-height: 100px;
+    max-width: 100px;
+    align-self: center;
+  }
   .view-account .side-bar .user-info {
     padding: 0
-  }
-  .view-account .side-bar .user-info .img-profile {
-    width: 60px;
-    height: 60px
   }
   .view-account .side-bar .user-info .meta li {
     margin-bottom: 5px
@@ -85,36 +102,48 @@ body {
   .view-account .content-panel {
     padding: 0
   }
-  .view-account .content-panel .avatar .figure img {
-    float: none;
-    margin-bottom: 15px
+  .book-image {
+    max-height: 100px;
+    max-width: 100px;
   }
 }
+
 @media (min-width:768px) {
+  .portrait {
+    max-height: 300px;
+    max-width: 300px;
+    align-self: center;
+  }
   .view-account .side-bar .user-info {
     padding: 0;
     padding-bottom: 15px
   }
-}
-@media (min-width:992px) {
-  .view-account .content-panel {
-    min-height: 800px;
-    border-left: 1px solid #f3f3f7;
-    margin-left: 200px
+  .book-image {
+    max-height: 200px;
+    max-width: 200px;
   }
-  .view-account .side-bar {
-    position: absolute;
-    width: 200px;
-    min-height: 600px
+}
+
+@media (min-width:992px) {
+  .portrait {
+    max-height: 400px;
+    max-width: 400px;
+    align-self: center;
+  }
+  .book-image {
+    max-height: 250px;
+    max-width: 250px;
+  }
+  .container-content {
+    min-height: 800px;
+  }
+  .view-account .content-panel {
+    border-left: 1px solid #f3f3f7;
   }
   .view-account .side-bar .user-info {
     margin-bottom: 0;
     border-bottom: none;
     padding-top: 30px
-  }
-  .view-account .side-bar .user-info .img-profile {
-    width: 120px;
-    height: 120px
   }
   .view-account .side-bar .side-menu {
     text-align: left
@@ -154,9 +183,30 @@ body {
   overflow-wrap: break-word;
 }
 
-.sign-out-btn {
-  background-color: #b43333;
-  margin-left: 1rem;
-  margin-bottom: 1rem;
-  border-color: transparent;
+.horizontal-scrolling-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.horizontal-container {
+  display: inline-block;
+}
+
+.vertical-scrolling-wrapper {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.vertical-container {
+  display: list-item;
+}
+
+#biographyDiv {
+  text-align: -webkit-auto;
+}
+
+.dateLabel {
+  display: grid;
+  text-align: left;
 }

@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -13,11 +12,12 @@
   <!-- Bootstrap core CSS -->
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/styles.css" rel="stylesheet">
-  <link href="/css/list-books-styles.css" rel="stylesheet">
+  <link href="/css/authors.css" rel="stylesheet">
 
 </head>
 
 <body>
+
   <!-- Navigation -->
   <nav id="navigation" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
@@ -43,43 +43,22 @@
   </nav>
 
   <!-- Page Content -->
-  <div id="content" class="container jumbotron book-jumbotron">
-    <!-- Page Features -->
-    <div class="row text-center">
-      <div class="book-card col-xl-3">
-        <img class="book-detail-image card-img-top" src="<%= book.image %>" alt="">
-        <div class="card-body">
-          <h4 class="card-title"><i><%= book.title %></i></h4>
-          <p class="card-text"><b>Author: </b>
-            <% if (authorId) { %>
-            <a href="/authors/<%= authorId %>">
-              <% } %>
-              <%= book.author %>
-              <% if (authorId) { %>
-            </a>
+
+  <div class="container">
+    <div id="containerContent" class="view-account container-content row">
+      <div id="sideMenu" class="vertical-scrolling-wrapper side-bar col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+        <nav class="vertical-container side-menu">
+          <ul class="nav">
+            <% for (let i = 0; i < authors.length; i++) { %>
+            <li <% if ( authors[i]._id == '_id' ) { %> class="active" <% } %>>
+              <a href="/authors/<%= authors[i]._id %>"><span class="fa fa-user"></span> <%= authors[i].name %></a></li>
             <% } %>
-          </p>
-          <p class="card-text"><b>Publication date: </b> <%= book.published %></p>
-          <p class="card-text"><b>Language: </b> <%= book.language %></p>
-          <p class="card-text"><b>Genre: </b> <%= book.genre %></p>
-        </div>
+          </ul>
+        </nav>
       </div>
-      <div class="bookDescription col-xl-9">
-        <%- book.description %>
+      <div class="content-panel col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
       </div>
     </div>
-    <% if (book.references) { %>
-    <div class="row references-label">
-      <label>References:</label>
-      <ul>
-        <% for (let i = 0; i < book.references.length; i++) { %>
-        <li>
-          <a href="<%= book.references[i] %>"> <%= book.references[i] %></a></li>
-        <br>
-        <% } %>
-      </ul>
-    </div>
-    <% } %>
   </div>
   <!-- /.container -->
 
@@ -94,6 +73,7 @@
   <!-- Bootstrap core JavaScript -->
   <script src="/js/jquery.min.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
+
   <script>
     function positionFooter() {
       var footerHeight = 0,
@@ -119,10 +99,23 @@
       }
     }
 
+    function sideListSize() {
+      var $sideMenu = $("#sideMenu"),
+        $footer = $("#footer"),
+        $navigation = $("#navigation"),
+        $containerContent = $("#containerContent");
+
+      $containerContent.css({
+        "max-height": $(window).height() - ( $navigation.height() + $footer.height())
+      })
+    }
+
     $(window).bind("load", function () {
+      sideListSize();
       positionFooter();
     });
     $(window).resize(function () {
+      sideListSize();
       positionFooter();
     });
 

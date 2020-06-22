@@ -52,14 +52,17 @@ function router(nav) {
 
         const db = client.db(dbName);
         const col = await db.collection('books');
+        const authorsbooksCol = await db.collection('authorsbooks');
 
         const book = await col.findOne({ _id: new ObjectID(id) });
+        const authorsbooks = await authorsbooksCol.findOne({ books: { $elemMatch: { id } } }) || {};
 
         response.render('bookView',
           {
             nav,
             title: 'Books',
             book,
+            authorId: authorsbooks.authorId,
           });
       } catch (err) {
         debug(err.stack);
