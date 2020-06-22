@@ -44,14 +44,12 @@ app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
 const bookRouter = require('./src/routes/bookRoutes')(NAV);
-const adminRouter = require('./src/routes/adminRoutes')(NAV);
 const authRouter = require('./src/routes/authRoutes')();
 const loginRouter = require('./src/routes/loginRoutes')(NAV);
 const profileRouter = require('./src/routes/profileRoutes')(NAV);
 const authorsRouter = require('./src/routes/authorsRoutes')(NAV);
 
 app.use('/books', bookRouter);
-app.use('/admin', adminRouter);
 app.use('/auth', authRouter);
 app.use('/login', loginRouter);
 app.use('/profile', profileRouter);

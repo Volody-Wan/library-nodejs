@@ -1,23 +1,14 @@
 const express = require('express');
 
+const profileController = require('../controllers/profileController');
+
 const profileRouter = express.Router();
 
 function router(nav) {
+  const { middleware, getProfile } = profileController(nav);
   profileRouter.route('/')
-    .all((request, response, next) => {
-      if (request.user) {
-        next();
-      } else {
-        response.redirect('/');
-      }
-    })
-    .get((request, response) => {
-      response.render('profile', {
-        nav,
-        title: 'Profile',
-        user: request.user,
-      });
-    });
+    .all(middleware)
+    .get(getProfile);
 
   return profileRouter;
 }
