@@ -11,13 +11,9 @@ function passportConfig(app) {
 
   passport.deserializeUser((user, done) => {
     const returningUser = {
+      // eslint-disable-next-line no-underscore-dangle
+      _id: user._id,
       username: user.username,
-      email: user.email,
-      profileImage: user.profileImage,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      twitter: user.twitter,
-      linkedIn: user.linkedIn,
     };
     done(null, returningUser);
   });

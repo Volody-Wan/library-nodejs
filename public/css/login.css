@@ -137,6 +137,10 @@ a.hiddenanchor {
   z-index: 22;
 }
 
+.radio-box {
+  padding-left: 10px;
+}
+
 #toregister:target~#wrapper #register, #tologin:target~#wrapper #login {
   -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.36);
   -moz-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.36);

@@ -145,18 +145,19 @@ body {
     border-bottom: none
   }
 }
-
 .jumbotron {
   background-color: #E5E5E5;
 }
-
 .dont-break-out {
   overflow-wrap: break-word;
 }
-
 .sign-out-btn {
   background-color: #b43333;
   margin-left: 1rem;
   margin-bottom: 1rem;
   border-color: transparent;
+}
+.sign-out-btn:hover {
+  background-color: #a43a3a;
+  border-color: transparent;;
 }

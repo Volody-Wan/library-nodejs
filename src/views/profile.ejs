@@ -7,9 +7,8 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title><%=title%></title>
+  <title id="title"><%=title%></title>
 
-  <!-- Bootstrap core CSS -->
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/styles.css" rel="stylesheet">
   <link href="/css/profile.css" rel="stylesheet">
@@ -17,32 +16,8 @@
 </head>
 
 <body>
-
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">Alexandria Library</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <% for (let i = 0; i < nav.length; i++) { %>
-          <li class="nav-item <% if ( nav[i].title == title) { %> active <% } %> ">
-            <a class="nav-link" href="<%= nav[i].link %>"><%= nav[i].title %>
-              <% if ( nav[i].title == title ) { %>
-              <span class="sr-only">(current)</span>
-              <% } %>
-            </a>
-          </li>
-          <% } %>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Page Content -->
+  <%- include("./partials/header") %>
+  
   <div class="container jumbotron">
     <div class="view-account">
       <div class="side-bar">
@@ -61,7 +36,7 @@
         </nav>
       </div>
       <div class="content-panel">
-        <form class="form-horizontal">
+        <form class="form-horizontal" action="/profile/updateProfile" method="post" autocomplete="on">
           <fieldset class="fieldset">
             <h3 class="fieldset-title">Personal Info</h3>
             <div class="form-group avatar">
@@ -72,20 +47,20 @@
             <div class="form-group">
               <label class="col-md-2 col-sm-3 col-xs-12 control-label">User Name</label>
               <div class="col-md-10 col-sm-9 col-xs-12">
-                <input type="text" class="form-control" value="<%= user.username %>">
+                <input type="text" name="username" class="form-control" value="<%= user.username %>" disabled>
               </div>
             </div>
 
             <div class="form-group">
               <label class="col-md-2 col-sm-3 col-xs-12 control-label">First Name</label>
               <div class="col-md-10 col-sm-9 col-xs-12">
-                <input type="text" class="form-control" value="<%= user.firstname %>">
+                <input type="text" name="firstname" class="form-control" value="<%= user.firstname %>">
               </div>
             </div>
             <div class="form-group">
               <label class="col-md-2 col-sm-3 col-xs-12 control-label">Last Name</label>
               <div class="col-md-10 col-sm-9 col-xs-12">
-                <input type="text" class="form-control" value="<%= user.lastname %>">
+                <input type="text" name="lastname" class="form-control" value="<%= user.lastname %>">
               </div>
             </div>
           </fieldset>
@@ -94,20 +69,20 @@
             <div class="form-group">
               <label class="col-md-2  col-sm-3 col-xs-12 control-label">Email</label>
               <div class="col-md-10 col-sm-9 col-xs-12">
-                <input type="email" class="form-control" value="<%= user.email %>">
+                <input type="email" name="email" class="form-control" value="<%= user.email %>">
               </div>
             </div>
             <div class="form-group">
               <label class="col-md-2  col-sm-3 col-xs-12 control-label">Twitter</label>
               <div class="col-md-10 col-sm-9 col-xs-12">
-                <input type="text" class="form-control" value="<%= user.twitter %>">
+                <input type="text" name="twitter" class="form-control" value="<%= user.twitter %>">
                 <p class="help-block">Your twitter username</p>
               </div>
             </div>
             <div class="form-group">
               <label class="col-md-2  col-sm-3 col-xs-12 control-label">Linkedin</label>
               <div class="col-md-10 col-sm-9 col-xs-12">
-                <input type="url" class="form-control" value="<%= user.linkedin %>">
+                <input type="url" name="linkedIn" class="form-control" value="<%= user.linkedIn %>">
                 <p class="help-block">eg. https://www.linkedin.com/in/yourname</p>
               </div>
             </div>
@@ -125,19 +100,8 @@
       </div>
     </div>
   </div>
-  <!-- /.container -->
 
-  <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Alexandria Library 2020</p>
-    </div>
-    <!-- /.container -->
-  </footer>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="/js/jquery.min.js"></script>
-  <script src="/js/bootstrap.bundle.min.js"></script>
+  <%- include("./partials/footer") %>
 
 </body>
 

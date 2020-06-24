@@ -1,15 +1,79 @@
-/* override bootstrap styles */
 @import url('http://fonts.googleapis.com/css?family=Oswald:300,400:latin,latin-ext');
-
 ul {
   list-style: upper-roman;
 }
 blockquote {
-  margin: 0rem 4rem 0rem; 
+  margin: 0rem 4rem 0rem;
 }
 h2 {
   font-size: 1.5rem;
 }
 h3 {
   font-size: 1.25rem;
+}
+.searchBox {
+  height: 40px;
+  border-radius: 40px;
+}
+.searchBox:hover>.searchInput {
+  width: 100px;
+  padding: 0 6px;
+}
+.searchBox:hover>.searchButton {
+  background: white;
+  color: #2f3640;
+}
+.searchResult {
+  visibility: hidden;
+  position: absolute;
+  display: grid;
+  margin-top: 40px;
+}
+.searchBox:hover>.searchResult {
+  visibility: visible;
+}
+.searchResult:hover {
+  visibility: visible;
+}
+.searchLink {
+  font-style: italic;
+  background: #e9ecef;
+  color: black;
+  font-size: 13px;
+  border-style: solid;
+  border-width: 1px;
+  padding-right: 5px;
+  margin-bottom: -10px;
+}
+.searchLink:hover {
+  text-decoration: underline;
+  color: black;
+}
+.searchButton {
+  color: white;
+  float: right;
+  border-radius: 50%;
+  background: #2f3640;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s;
+}
+.searchInput {
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  padding: 0;
+  color: white;
+  font-size: 16px;
+  transition: 0.4s;
+  line-height: 40px;
+  width: 0px;
+}
+@media screen and (max-width: 620px) {
+  .searchBox:hover>.searchInput {
+    width: 150px;
+    padding: 0 6px;
+  }
 }

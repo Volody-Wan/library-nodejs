@@ -21,8 +21,10 @@ function bookController(nav) {
         client = await MongoClient.connect(url, { useUnifiedTopology: true });
 
         const db = client.db(dbName);
-        const col = await db.collection('books');
-        const books = await col.find().toArray();
+        const col = db.collection('books');
+        const books = await col.find(
+          {}, { projection: { title: 1, author: 1, image: 1 } },
+        ).sort({ title: 1 }).toArray();
 
         res.render('booksListView',
           {
@@ -49,8 +51,8 @@ function bookController(nav) {
         client = await MongoClient.connect(url, { useUnifiedTopology: true });
 
         const db = client.db(dbName);
-        const col = await db.collection('books');
-        const authorsbooksCol = await db.collection('authorsbooks');
+        const col = db.collection('books');
+        const authorsbooksCol = db.collection('authorsbooks');
 
         const book = await col.findOne({ _id: new ObjectID(id) });
         const authorsbooks = await authorsbooksCol.findOne({ books: { $elemMatch: { id } } }) || {};

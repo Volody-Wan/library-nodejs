@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+
+  <nav id="navigation" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Alexandria Library</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <% for (let i = 0; i < nav.length; i++) { %>
+          <li class="nav-item <% if ( nav[i].title == title) { %> active <% } %> ">
+            <a class="nav-link" href="<%= nav[i].link %>"><%= nav[i].title %>
+              <% if ( nav[i].title == title ) { %>
+              <span class="sr-only">(current)</span>
+              <% } %>
+            </a>
+          </li>
+          <% } %>
+        </ul>
+        <% if (title === 'Authors' || title === 'Books') { %>
+        <div class="searchBox bg-dark">
+          <input class="searchInput" type="text" placeholder="Search" onkeyup="search(this.value)">
+          <button class="searchButton" href="#">
+            <i class="material-icons">
+              search
+            </i>
+          </button>
+          <div id="searchResults" class="searchResult">
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/axios.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    let timer;
+    const $searchResults = $("#searchResults");
+    const $title = $("#title")[0].innerText;
+    function search(value) {
+      if (value.length >= 3) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          (async function apiCall() {
+            $searchResults.html("");
+            if ($title === 'Authors') {
+              searchAuthors(value);
+            } else if ($title === 'Books') {
+              searchBooks(value);
+            }
+          }());
+        }, 300);
+      } else {
+        $searchResults.html("");
+        $searchResults.fadeOut();
+      }
+    }
+    function searchAuthors(value) {
+      axios.get(`/search/authors?query=${value}`).then((req) => {
+        if (req.data.length) {
+          $searchResults.fadeIn();
+          req.data.forEach(author => {
+            $searchResults.append(`<a  class="searchLink" href="/authors/${author._id}"><p>${author.name}</p></a>`);
+          });
+        } else {
+          $searchResults.append('<p>No match</p>');
+        }
+      }).catch(err => {
+        $searchResults.append('<p>No match</p>');
+      });
+    }
+    function searchBooks(value) {
+      axios.get(`/search/books?query=${value}`).then((req) => {
+        if (req.data.length) {
+          $searchResults.fadeIn();
+          req.data.forEach(book => {
+            $searchResults.append(`<a  class="searchLink" href="/books/${book._id}"><p>${book.title}</p></a>`);
+          });
+        } else {
+          $searchResults.append('<p>No match</p>');
+        }
+      }).catch(err => {
+        $searchResults.append('<p>No match</p>');
+      });
+    }
+  </script>
+</body>
+
+</html>

@@ -22,8 +22,8 @@ function authorsController(nav) {
         client = await MongoClient.connect(url, { useUnifiedTopology: true });
 
         const db = client.db(dbName);
-        const col = await db.collection('authors');
-        const authors = await col.find({}).project({ name: 1 }).toArray();
+        const col = db.collection('authors');
+        const authors = await col.find({}).project({ name: 1 }).sort({ name: 1 }).toArray();
 
         res.render('authors',
           {
@@ -50,9 +50,9 @@ function authorsController(nav) {
         client = await MongoClient.connect(url, { useUnifiedTopology: true });
 
         const db = client.db(dbName);
-        const col = await db.collection('authors');
-        const authorsbooks = await db.collection('authorsbooks');
-        const authors = await col.find({}, { projection: { name: 1 } }).toArray();
+        const col = db.collection('authors');
+        const authorsbooks = db.collection('authorsbooks');
+        const authors = await col.find({}, { projection: { name: 1 } }).sort({ name: 1 }).toArray();
         const author = await col.findOne({ _id: new ObjectID(id) });
         author.birth = dateformat(author.birth, 'dS mmmm, yyyy', true);
         if (author.death) {

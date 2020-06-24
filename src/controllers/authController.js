@@ -14,6 +14,7 @@ function authController() {
       emailSignup,
       firstnameSignup,
       lastnameSignup,
+      genderSignup,
       passwordSignup,
       confirmPasswordSignup,
     } = req.body;
@@ -31,13 +32,22 @@ function authController() {
         const user = {
           username: usernameSignup.toLowerCase(),
           email: emailSignup.toLowerCase(),
-          profileImage: 'https://cdn.iconscout.com/icon/free/png-512/avatar-370-456322.png',
+          profileImage: '',
           firstname: firstnameSignup,
           lastname: lastnameSignup,
+          gender: genderSignup,
           twitter: '',
           linkedIn: '',
           password: passwordSignup,
         };
+
+        if (genderSignup === 'male') {
+          user.profileImage = 'https://cdn.iconscout.com/icon/free/png-512/avatar-370-456322.png';
+        } else if (genderSignup === 'female') {
+          user.profileImage = 'https://cdn.iconscout.com/icon/free/png-512/avatar-370-2130102.png';
+        } else {
+          user.profileImage = 'https://cdn.iconscout.com/icon/free/png-512/avatar-370-453298.png';
+        }
 
         if (passwordSignup !== confirmPasswordSignup) {
           req.flash('error', PASSWORDSMISMATCH);
