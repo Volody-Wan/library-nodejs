@@ -13,6 +13,7 @@ function bookController(nav) {
   function getBooks(req, res) {
     const url = 'mongodb://localhost:27017';
     const dbName = 'librarian';
+    const { page } = req.query;
 
     (async function mongo() {
       let client;
@@ -22,16 +23,46 @@ function bookController(nav) {
 
         const db = client.db(dbName);
         const col = db.collection('books');
-        const books = await col.find(
-          {}, { projection: { title: 1, author: 1, image: 1 } },
-        ).sort({ title: 1 }).toArray();
+        const recommendedBooksCol = db.collection('recommendedBooks');
+        let recommendedBooksResult;
+        if (!page || page === '1') {
+          recommendedBooksResult = await recommendedBooksCol.find(
+            {}, { projection: { bookId: 1, image: 1, _id: 0 } },
+          ).toArray();
+        }
 
-        res.render('booksListView',
-          {
-            nav,
-            title: 'Books',
-            books,
-          });
+        if (page) {
+          const resultsPerPage = 8;
+          const books = await col.find(
+            {}, { projection: { title: 1, author: 1, image: 1 } },
+          ).skip((resultsPerPage * page) - resultsPerPage)
+            .limit(resultsPerPage).sort({ title: 1 })
+            .toArray();
+
+          if (page === '1') {
+            res.render('booksListView',
+              {
+                nav,
+                title: 'Books',
+                books,
+                recommendedBooks: recommendedBooksResult,
+              });
+          } else {
+            res.json(books);
+          }
+        } else {
+          const books = await col.find(
+            {}, { projection: { title: 1, author: 1, image: 1 } },
+          ).sort({ title: 1 }).toArray();
+
+          res.render('booksListView',
+            {
+              nav,
+              title: 'Books',
+              books,
+              recommendedBooks: recommendedBooksResult,
+            });
+        }
       } catch (err) {
         debug(err.stack);
       }

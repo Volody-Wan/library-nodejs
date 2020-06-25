@@ -5,7 +5,7 @@ const USERNAMEEXISTS = 'Username already exists';
 const EMAILUSED = 'This email is already used by a different user';
 
 const NAV = [
-  { link: '/books', title: 'Books' },
+  { link: '/books?page=1', title: 'Books' },
   { link: '/authors', title: 'Authors' },
   { link: '/profile', title: 'Profile' },
 ];

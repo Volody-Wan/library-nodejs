@@ -39,10 +39,8 @@
 
   <script>
     function positionFooter() {
-      var footerHeight = 0,
-        footerTop = 0,
-        $footer = $("#footer");
-      footerHeight = $footer.height();
+      var $footer = $("#footer");
+      
       if (($(window).height() > $(document.body).height() + $footer.height())) {
         $footer.css({
           bottom: 0
@@ -65,7 +63,7 @@
         $navigation = $("#navigation"),
         $containerContent = $("#containerContent");
       $containerContent.css({
-        "max-height": $(window).height() - ( $navigation.height() + $footer.height())
+        "max-height": $(window).height() - ($navigation.height() + $footer.height())
       })
     }
     $(window).bind("load", function () {

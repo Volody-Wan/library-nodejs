@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  
+
   <title id="title"><%=title%></title>
 
   <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -85,12 +85,8 @@
 
   <script>
     function positionFooter() {
-      var footerHeight = 0,
-        footerTop = 0,
-        $footer = $("#footer");
-
-      footerHeight = $footer.height();
-
+      var $footer = $("#footer");
+      
       if (($(window).height() > $(document.body).height() + $footer.height())) {
         $footer.css({
           bottom: 0
@@ -107,12 +103,10 @@
         })
       }
     }
-
     function sideListSize() {
       var $article = $("#article"),
         $sideMenu = $("#sideMenu"),
         $articleContent = $("#articleContent");
-
       if (window.matchMedia("(max-width: 767px)").matches) {
         $sideMenu.css({
           height: $articleContent.height()
@@ -123,7 +117,6 @@
         })
       }
     }
-
     $(window).bind("load", function () {
       positionFooter();
       sideListSize();
@@ -132,7 +125,6 @@
       positionFooter();
       sideListSize();
     });
-
   </script>
 
 </body>
