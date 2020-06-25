@@ -65,6 +65,9 @@
       $containerContent.css({
         "max-height": $(window).height() - ($navigation.height() + $footer.height())
       })
+      $sideMenu.css({
+        "max-height": $(window).height() - ($navigation.height() + $footer.height())
+      })
     }
     $(window).bind("load", function () {
       sideListSize();
