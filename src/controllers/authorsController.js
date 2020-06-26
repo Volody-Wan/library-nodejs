@@ -25,7 +25,7 @@ function authorsController(nav) {
         const col = db.collection('authors');
         const authors = await col.find({}).project({ name: 1 }).sort({ name: 1 }).toArray();
 
-        res.render('authors',
+        res.render('authorsView',
           {
             nav,
             title: 'Authors',
@@ -61,7 +61,7 @@ function authorsController(nav) {
         const { books } = await authorsbooks
           .findOne({ authorId: id }, { projection: { books: true, _id: false } }) || {};
 
-        res.render('author',
+        res.render('authorView',
           {
             nav,
             title: 'Authors',

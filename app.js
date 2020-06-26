@@ -11,6 +11,8 @@ const flash = require('connect-flash');
 const { NAV } = require('./src/constants/constants.js');
 
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 const port = process.env.PORT || 3000;
 
 app.use(morgan('tiny'));
@@ -46,11 +48,12 @@ app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
 const bookRouter = require('./src/routes/bookRoutes')(NAV);
-const authRouter = require('./src/routes/authRoutes')();
+const authRouter = require('./src/routes/authRoutes')(NAV);
 const loginRouter = require('./src/routes/loginRoutes')(NAV);
 const profileRouter = require('./src/routes/profileRoutes')(NAV);
 const authorsRouter = require('./src/routes/authorsRoutes')(NAV);
 const searchRouter = require('./src/routes/searchRoutes')(NAV);
+const adminRoutes = require('./src/routes/adminRoutes')(NAV);
 
 app.use('/books', bookRouter);
 app.use('/auth', authRouter);
@@ -58,16 +61,17 @@ app.use('/login', loginRouter);
 app.use('/profile', profileRouter);
 app.use('/authors', authorsRouter);
 app.use('/search', searchRouter);
+app.use('/admin', adminRoutes);
 
 app.route('/')
-  .all((request, response) => {
-    if (request.user) {
-      response.redirect('/books');
+  .all((req, res) => {
+    if (req.user) {
+      res.redirect('/books');
     } else {
-      response.redirect('/login');
+      res.redirect('/login');
     }
   });
 
-app.listen(port, () => {
+server.listen(port, () => {
   debug(`listening on port ${chalk.blue(port)}`);
 });

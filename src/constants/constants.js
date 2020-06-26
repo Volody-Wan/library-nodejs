@@ -8,6 +8,7 @@ const NAV = [
   { link: '/books?page=1', title: 'Books' },
   { link: '/authors', title: 'Authors' },
   { link: '/profile', title: 'Profile' },
+  { link: '/admin', title: 'Admin' },
 ];
 
 module.exports = {

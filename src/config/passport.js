@@ -14,6 +14,7 @@ function passportConfig(app) {
       // eslint-disable-next-line no-underscore-dangle
       _id: user._id,
       username: user.username,
+      role: user.role,
     };
     done(null, returningUser);
   });

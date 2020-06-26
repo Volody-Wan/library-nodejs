@@ -17,7 +17,7 @@ function loginController(nav) {
 
   function getLogin(req, res) {
     const errors = req.flash('error');
-    res.render('login',
+    res.render('loginView',
       {
         nav,
         title: 'Alexandria Library',
