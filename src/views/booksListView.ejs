@@ -28,7 +28,7 @@
         <div class="card-body horizontal-container">
           <% for (let i = 0; i < recommendedBooks.length; i++) {%>
           <a class="recommendedContainer" href="/books/<%= recommendedBooks[i].bookId %>">
-            <img class="recommendedImage" src="<%= recommendedBooks[i].image %>" alt=""></a>
+            <img class="recommendedImage" src="<%= recommendedBooks[i].book.image %>" alt=""></a>
           <% } %>
         </div>
       </div>

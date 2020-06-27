@@ -11,14 +11,35 @@
 
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/styles.css" rel="stylesheet">
+  <link href="/css/admin.css" rel="stylesheet">
 
 </head>
 
 <body>
   <%- include("./partials/header") %>
-  
-  <div class="container jumbotron">
-      
+  <div id="containerDiv" class="container jumbotron">
+    <form class="row">
+      <div class="vertical-scrolling-wrapper side-bar col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+        <nav class="vertical-container">
+          <ul>
+            <% for (let i = 0; i < recommendedBooks.length; i++) { %>
+            <div id="bookCard" class="card h-100">
+              <img class="card-img-top" src="<%= recommendedBooks[i].image %>" alt="">
+              <div class="card-body">
+                <h4 class="card-title"><%= recommendedBooks[i].bookId %></h4>
+                <p class="card-text"><%= recommendedBooks[i].image %></p>
+              </div>
+              <div class="card-footer">
+                <a href="#" class="btn btn-primary">Read More!</a>
+              </div>
+            </div>
+            <% } %>
+          </ul>
+        </nav>
+      </div>
+      <div class="content-panel col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+      </div>
+    </form>
   </div>
 
   <%- include("./partials/footer") %>

@@ -163,13 +163,6 @@ body {
 .dont-break-out {
   overflow-wrap: break-word;
 }
-.vertical-scrolling-wrapper {
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
-.vertical-container {
-  display: list-item;
-}
 #biographyDiv {
   text-align: -webkit-auto;
 }

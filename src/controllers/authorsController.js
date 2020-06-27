@@ -45,6 +45,7 @@ function authorsController(nav) {
 
     (async function mongo() {
       let client;
+      let books;
 
       try {
         client = await MongoClient.connect(url, { useUnifiedTopology: true });
@@ -58,8 +59,68 @@ function authorsController(nav) {
         if (author.death) {
           author.death = dateformat(author.death, 'dS mmmm, yyyy', true);
         }
-        const { books } = await authorsbooks
-          .findOne({ authorId: id }, { projection: { books: true, _id: false } }) || {};
+        const authorBooksResult = await authorsbooks.aggregate([
+          {
+            $match:
+            {
+              authorId: id
+            }
+          },
+          {
+            '$unwind': '$booksIds'
+          },
+          {
+            $lookup:
+            {
+              from: 'books',
+              let: { bookIds: { $toObjectId: '$booksIds' } },
+              pipeline: [
+                {
+                  $match:
+                  {
+                    $expr:
+                    {
+                      $eq: ['$_id', '$$bookIds'],
+                    }
+                  }
+                },
+                {
+                  $project:
+                  {
+                    image: true,
+                    _id: false
+                  }
+                }
+              ],
+              as: 'books'
+            }
+          },
+          {
+            $unwind: '$books'
+          },
+          {
+            $group: {
+              _id: '$_id',
+              books: {
+                $push: {
+                  id: '$booksIds',
+                  image: '$books.image'
+                }
+              }
+            }
+          },
+          {
+            $project:
+            {
+              books: true,
+              _id: false
+            }
+          }
+        ]).toArray();
+
+        if (authorBooksResult) {
+          books = authorBooksResult[0].books;
+        }
 
         res.render('authorView',
           {

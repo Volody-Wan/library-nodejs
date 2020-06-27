@@ -26,9 +26,30 @@ function bookController(nav) {
         const recommendedBooksCol = db.collection('recommendedBooks');
         let recommendedBooksResult;
         if (!page || page === '1') {
-          recommendedBooksResult = await recommendedBooksCol.find(
-            {}, { projection: { bookId: 1, image: 1, _id: 0 } },
-          ).toArray();
+          recommendedBooksResult = await recommendedBooksCol.aggregate([
+            {
+              $lookup:
+              {
+                from: 'books',
+                'let': { bookId: { $toObjectId: '$bookId' } },
+                pipeline: [
+                  {
+                    $match:
+                    {
+                      $expr:
+                      {
+                        $eq: ['$_id', '$$bookId'],
+                      }
+                    }
+                  },
+                  { $project: { image: true, _id: false } }
+                ],
+                as: 'book'
+              }
+            },
+            {
+              $unwind: '$book'
+            }]).toArray();
         }
 
         if (page) {
@@ -86,14 +107,14 @@ function bookController(nav) {
         const authorsbooksCol = db.collection('authorsbooks');
 
         const book = await col.findOne({ _id: new ObjectID(id) });
-        const authorsbooks = await authorsbooksCol.findOne({ books: { $elemMatch: { id } } }) || {};
+        const { authorId } = await authorsbooksCol.findOne({ booksIds: { $in: [ id ] } }) || {};
 
         res.render('bookView',
           {
             nav,
             title: 'Books',
             book,
-            authorId: authorsbooks.authorId,
+            authorId,
           });
       } catch (err) {
         debug(err.stack);

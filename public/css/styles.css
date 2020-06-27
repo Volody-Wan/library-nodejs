@@ -88,3 +88,11 @@ h3 {
 .horizontal-container {
   display: inline-block;
 }
+.vertical-scrolling-wrapper {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.vertical-container {
+  display: list-item;
+  list-style: none;
+}
