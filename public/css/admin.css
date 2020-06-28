@@ -1,6 +1,40 @@
 #containerDiv {
     margin-top: 86px;
 }
-#bookCard {
+#searchContainer {
+    border-style: ridge;
+}
+.book-card {
     margin-bottom: 10px;
+}
+ul {
+    padding-inline-start: 0px;
+}
+.card-footer {
+    text-align: center;
+}
+.search-input {
+    width: 100%;
+}
+.search-results-container {
+    margin-top: 10px;
+}
+.no-href-button {
+    color: white !important;
+}
+.form-control-buttons {
+    width: 100%;
+    margin-top: 1rem;
+}
+.add-button {
+    text-align: end;
+}
+@media screen and (max-width: 767px) {
+    .remove-button {
+        text-align: end;
+    }
+    .add-button {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
 }

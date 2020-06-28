@@ -54,7 +54,7 @@ function searchController() {
           const db = client.db(dbName);
           const col = db.collection('books');
           const searchResult = await col.find(
-            { title: { $regex: new RegExp(query, 'i') } }, { projection: { title: 1 } },
+            { title: { $regex: new RegExp(query, 'i') } }, { projection: { title: 1, author: 1, image: 1 } },
           ).sort({ title: 1 }).toArray();
 
           res.json(searchResult);
