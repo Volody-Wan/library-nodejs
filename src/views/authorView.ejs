@@ -13,6 +13,14 @@
   <link href="/css/styles.css" rel="stylesheet">
   <link href="/css/authors.css" rel="stylesheet">
 
+  <script src="https://cdn.tiny.cloud/1/b3djhg5898pm308mxe9r7uprjt4x6pz7eivf62i36lwkp1dy/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: '#updateAuthorBiography',
+      menubar: false
+    });
+  </script>
 </head>
 
 <body>
@@ -31,8 +39,13 @@
         </nav>
       </div>
       <div class="content-panel col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+        <% if (userRole === 'admin') { %>
+        <div class="right-button-div">
+          <input class="btn btn-outline-dark" type="submit" value="Edit" onclick="updateContent()">
+        </div>
+        <% } %>
         <div id="article" class="container row text-center">
-          <div id="articleContent" lass="card h-100">
+          <div id="articleContent" class="full-width">
             <img class="card-img-top portrait" src="<%= author.image %>" alt="">
             <div class="card-body">
               <h4 class="card-title"><%= author.name %></h4>
@@ -40,8 +53,8 @@
                 <div class="col-md-3 col-lg-3 col-xl-4">
                 </div>
                 <div class="card-body dateLabel col-md-6 col-lg-6 col-xl-6">
-                  <label><b>Born:</b> <%= author.birth %></label>
-                  <% if(author.death && author.death != "") { %><label><b>Died:</b> <%= author.death %></label><% } %>
+                  <label><b>Born:</b> <%= author.formattedBirth %></label>
+                  <% if(author.formattedDeath) { %><label><b>Died:</b> <%= author.formattedDeath %></label><% } %>
                   <label><b>Nationality:</b> <%= author.nationality %></label>
                   <label><b>Language:</b> <%= author.language %></label>
                   <label><b>Genre(s):</b> <%= author.genre %></label>
@@ -53,30 +66,117 @@
                 <%- author.biography %>
               </div>
             </div>
-          </div>
-          <% if (books) { %>
-          <div class="horizontal-scrolling-wrapper row col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-            <div class="card-body horizontal-container">
-              <% for (let i = 0; i < books.length; i++) { %>
-              <a href="/books/<%= books[i].id %>">
-                <img class="book-image" src="<%= books[i].image %>" alt="">
-              </a>
-              <% } %>
+            <% if (books) { %>
+            <div class="horizontal-scrolling-wrapper row col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <div class="card-body horizontal-container">
+                <% for (let i = 0; i < books.length; i++) { %>
+                <a href="/books/<%= books[i].id %>">
+                  <img class="book-image" src="<%= books[i].image %>" alt="">
+                </a>
+                <% } %>
+              </div>
             </div>
+            <% } %>
+            <% if (author.references) { %>
+            <div class="row references-label">
+              <label>References:</label>
+              <ul>
+                <% for (let i = 0; i < author.references.length; i++) { %>
+                <li>
+                  <a href="<%= author.references[i] %>"> <%= author.references[i] %></a>
+                </li>
+                <% } %>
+              </ul>
+            </div>
+            <% } %>
           </div>
-          <% } %>
-          <% if (author.references) { %>
-          <div class="row references-label">
-            <label>References:</label>
-            <ul>
-              <% for (let i = 0; i < author.references.length; i++) { %>
-              <li>
-                <a href="<%= author.references[i] %>"> <%= author.references[i] %></a></li>
-              <% } %>
-            </ul>
+          <% if (userRole === 'admin') { %>
+          <div id="articleContentUpdate" class="full-width">
+            <form action="#" method="post">
+              <label class="full-width"><b>Image:</b><input class="full-width form-control" name="updatedAuthorImage"
+                  value="<%= author.image %>" oninput="updatePicture(this.value)"></label>
+              </br>
+              <img id="imageUpdate" class="card-img-top portrait" src="<%= author.image %>" alt="">
+              <div class="card-body">
+                <h4 class="card-title"><input class="maximum-width form-control" value="<%= author.name %>" name="updateAuthorName">
+                </h4>
+                <div class="row">
+                  <div class="col-md-3 col-lg-3 col-xl-4"></div>
+                  <div class="card-body dateLabel col-md-6 col-lg-6 col-xl-6">
+                    <label><b>Born:</b><input class="maximum-width form-control" value="<%= author.birth %>"
+                        name="updateAuthorBirthDay"></label>
+                    <label><b>Died:</b><input class="maximum-width form-control" value="<%= author.death %>"
+                        name="updateAuthorDeathDay"></label>
+                    <label><b>Nationality:</b><input class="maximum-width form-control" value="<%= author.nationality %>"
+                        name="updateAuthorNationality"></label>
+                    <label><b>Language:</b><input class="maximum-width form-control" value="<%= author.language %>"
+                        name="updateAuthorLanguage"></label>
+                    <label><b>Genre(s):</b><input class="maximum-width form-control" value="<%= author.genre %>"
+                        name="updateAuthorGenres"></label>
+                  </div>
+                  <div class="col-md-3 col-lg-3 col-xl-2">
+                  </div>
+                </div>
+                <div id="biographyDiv">
+                  <textarea id="updateAuthorBiography" name="updateAuthorBiography"><%- author.biography %></textarea>
+                </div>
+              </div>
+              <div id="searchContainer" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <label>
+                  <h3>Search for Books</h3>
+                </label>
+                <input class="search-input full-width form-control" onkeyup="searchForBook(this.value)">
+                <div id="searchResultsContainer" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 search-results-container">
+
+                </div>
+              </div>
+              <div class="horizontal-scrolling-wrapper row col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div id="authorsBooks" class="card-body horizontal-container">
+                  <% if (books) { %>
+                  <% for (let i = 0; i < books.length; i++) { %>
+                  <div id="<%= books[i].id %>-div" class="update-book-ref horizontal-container">
+                    <input class="btn btn-outline-danger full-width row sm-remove-button" type="button" value="Remove"
+                      onclick="removeBookFromAuthor('<%= books[i].id %>')">
+                    <input id="<%= books[i].id %>" class="book-image row" type="image" src="<%= books[i].image %>"
+                      disabled>
+                    <input name="updateAuthorBooks" value="<%= books[i].id %>" hidden>
+                  </div>
+                  <% } %>
+                  <% } %>
+                </div>
+              </div>
+              <div class="row references-label">
+                <label>References:</label>
+                <ul id="unorderedUpdateReferenceList" class="row col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  
+                  <% if (author.references) { %>
+                    <% for (let i = 0; i < author.references.length; i++) { %>
+                    <li class="full-width">
+                      <input class="full-width margin-top-10 form-control" name="updateReferenceList"
+                        value="<%= author.references[i] %>">
+                    </li>
+                    <% } %>
+                  <% } else { %>
+                    <li class="full-width">
+                      <input class="full-width margin-top-10 form-control" name="updateReferenceList"
+                        value="">
+                    </li>
+                  <% } %>
+                  </ul>
+                <div class="reference-buttons">
+                  <input class="btn btn-outline-danger margin-top-10" type="button" value="Remove Reference"
+                    onclick="removeReference()">
+                  <input class="btn btn-outline-success margin-top-10" type="button" value="Add Reference"
+                    onclick="addReference()">
+                </div>
+              </div>
+              <div class="right-button-div">
+                <input class="btn btn-outline-dark" type="submit" value="Update Author">
+              </div>
           </div>
-          <% } %>
+          </form>
         </div>
+        <% } %>
       </div>
     </div>
   </div>
@@ -84,9 +184,17 @@
   <%- include("./partials/footer") %>
 
   <script>
+    var $articleContentUpdate = $("#articleContentUpdate"),
+      $footer = $("#footer"),
+      $article = $("#article"),
+      $sideMenu = $("#sideMenu"),
+      $articleContent = $("#articleContent"),
+      $searchResultsContainer = $("#searchResultsContainer"),
+      $authorsBooks = $("#authorsBooks"),
+      updateHidden = true;
+    $articleContentUpdate.hide();
+
     function positionFooter() {
-      var $footer = $("#footer");
-      
       if (($(window).height() > $(document.body).height() + $footer.height())) {
         $footer.css({
           bottom: 0
@@ -104,9 +212,6 @@
       }
     }
     function sideListSize() {
-      var $article = $("#article"),
-        $sideMenu = $("#sideMenu"),
-        $articleContent = $("#articleContent");
       if (window.matchMedia("(max-width: 767px)").matches) {
         $sideMenu.css({
           height: $articleContent.height()
@@ -117,6 +222,106 @@
         })
       }
     }
+    function updateContent() {
+      if (updateHidden) {
+        $articleContentUpdate.show();
+        $articleContent.hide();
+        updateHidden = false;
+      } else {
+        $articleContentUpdate.hide();
+        $articleContent.show();
+        updateHidden = true;
+      }
+    }
+    function updatePicture(value) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        $imageUpdate = $("#imageUpdate")[0];
+        $imageUpdate.src = value;
+      }, 250);
+    }
+    function removeBookFromAuthor(bookToRemove) {
+      $(`#${bookToRemove}-div`).remove();
+    }
+    function addBookToAuthor(bookToAddId, bookToAddImage) {
+      $(`#${bookToAddId}-link`).remove();
+
+      var divBook = $("<div/>", {
+        id: `${bookToAddId}-div`,
+        "class": 'update-book-ref horizontal-container',
+      }).appendTo($authorsBooks);
+
+      $("<input/>", {
+        "class": 'btn btn-outline-danger full-width row sm-remove-button',
+        type: 'button',
+        value: "Remove",
+        on: {
+          click: (() => {
+            removeBookFromAuthor(bookToAddId)
+          })
+        },
+      }).appendTo(divBook);
+
+      $("<input/>", {
+        id: bookToAddId,
+        "class": 'book-image row',
+        type: 'image',
+        src: bookToAddImage,
+        prop: {
+          "disabled": true
+        },
+      }).appendTo(divBook);
+
+      $("<input/>", {
+        name: 'updateAuthorBooks',
+        value: bookToAddId,
+        prop: {
+          "hidden": true
+        },
+      }).appendTo(divBook);
+    }
+    function removeReference() {
+      var $unorderedUpdateReferenceList = $("#unorderedUpdateReferenceList");
+
+      $unorderedUpdateReferenceList.children().children().last().remove();
+    }
+    function addReference() {
+      var $unorderedUpdateReferenceList = $("#unorderedUpdateReferenceList");
+
+      $("<input/>", {
+        "class": 'full-width margin-top-10 form-control',
+        name: 'updateReferenceList',
+        value: ''
+      }).appendTo($unorderedUpdateReferenceList.children().last());
+    }
+    
+    function searchForBook(value) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        $searchResultsContainer.empty();
+        axios.get(`/search/books?query=${value}`).then((req) => {
+          if (req.data.length) {
+            req.data.forEach(element => {
+              if ($authorsBooks.find($(`#${element._id}`)).length == 0) {
+                $("<input/>", {
+                  id: `${element._id}-link`,
+                  "class": 'searched-book-result form-control',
+                  type: 'button',
+                  value: element.title,
+                  on: {
+                    click: (() => {
+                      addBookToAuthor(element._id, element.image)
+                    })
+                  }
+                }).appendTo($searchResultsContainer);
+              }
+            });
+          }
+        }).catch(err => {
+        });
+      }, 250);
+    }
+
     $(window).bind("load", function () {
       positionFooter();
       sideListSize();

@@ -69,6 +69,11 @@ body {
   word-break: break-word;
   padding-left: 16px;
 }
+.book-image {
+  margin-left: 0;
+  margin-right: 0;
+  padding-top: 5px;
+}
 @media (max-width:767px) {
   .view-account .side-bar .side-menu .nav>li>a {
     padding: 0;
@@ -91,6 +96,16 @@ body {
     max-height: 100px;
     max-width: 100px;
   }
+  .update-book-ref {
+    max-width: 70px;
+  }
+  .sm-remove-button {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    font-size: small;
+  }
 }
 @media (min-width:768px) {
   .portrait {
@@ -106,6 +121,9 @@ body {
     max-height: 200px;
     max-width: 200px;
   }
+  .update-book-ref {
+    max-width: 130px;
+  }
 }
 @media (min-width:992px) {
   .portrait {
@@ -116,6 +134,9 @@ body {
   .book-image {
     max-height: 250px;
     max-width: 250px;
+  }
+  .update-book-ref {
+    max-width: 220px;
   }
   .container-content {
     min-height: 800px;
@@ -169,4 +190,43 @@ body {
 .dateLabel {
   display: grid;
   text-align: left;
+}
+.right-button-div {
+  text-align: -webkit-right;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.full-width {
+  width: 100%;
+}
+.maximum-width {
+  max-width: 100%;
+}
+.margin-top-10 {
+  margin-top: 10px;
+}
+.reference-buttons {
+  padding-right: 1rem;
+  text-align: -webkit-right;
+}
+.searched-book-result {
+  font-style: italic;
+  background: #e7e8eb;
+  color: #000000;
+  font-size: 13px;
+  border-style: solid;
+  border-width: 1px;
+  padding-right: 5px;
+  margin-bottom: -10px;
+  margin-top: 5px;
+}
+.searched-book-result:hover {
+  background: #ffffff;
+}
+.search-input {
+  width: 100%;
+}
+.search-results-container {
+  overflow-y: auto;
+  max-height: 300px;
 }

@@ -18,7 +18,7 @@
 <body>
   <%- include("./partials/header") %>
   <div id="containerDiv" class="container jumbotron">
-    <form class="row" action="/admin" method="post" >
+    <form class="row" action="/admin" method="post">
       <div id="recommendedContainer" name="recommendedContainer"
         class="vertical-scrolling-wrapper side-bar col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
         <label>
@@ -92,13 +92,15 @@
     }
 
     function searchForBook(value) {
-      $searchResultsContainer.empty();
-      axios.get(`/search/books?query=${value}`).then((req) => {
-        if (req.data.length) {
-          req.data.forEach(element => {
-            if ($recommendedContainer.find($(`#${element._id}`)).length == 0) {
-              $searchResultsContainer.append(
-                `
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        $searchResultsContainer.empty();
+        axios.get(`/search/books?query=${value}`).then((req) => {
+          if (req.data.length) {
+            req.data.forEach(element => {
+              if ($recommendedContainer.find($(`#${element._id}`)).length == 0) {
+                $searchResultsContainer.append(
+                  `
                 <div id="${element._id}" class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
                     <img class="card-img-top" src="${element.image}" alt="">
@@ -113,15 +115,16 @@
                   </div>
                 </div>
               `
-              );
-            }
-          });
-          recommendedContainerSize($searchResultsContainer.height());
-        } else {
-          recommendedContainerSize();
-        }
-      }).catch(err => {
-      });
+                );
+              }
+            });
+            recommendedContainerSize($searchResultsContainer.height());
+          } else {
+            recommendedContainerSize();
+          }
+        }).catch(err => {
+        });
+      }, 250);
     }
 
     var Book = {

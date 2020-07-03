@@ -47,7 +47,7 @@
     const $searchResults = $("#searchResults");
     const $title = $("#title")[0].innerText;
     function search(value) {
-      if (value.length >= 3) {
+      if (value.length >= 2) {
         clearTimeout(timer);
         timer = setTimeout(() => {
           (async function apiCall() {

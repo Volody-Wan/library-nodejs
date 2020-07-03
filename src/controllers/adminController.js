@@ -1,6 +1,5 @@
 const debug = require('debug')('app:adminController');
 const { MongoClient, ObjectID } = require('mongodb');
-const e = require('express');
 
 function adminController(nav) {
   function middleware(req, res, next) {

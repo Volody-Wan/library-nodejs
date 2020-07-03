@@ -86,6 +86,7 @@ h3 {
   white-space: nowrap;
 }
 .horizontal-container {
+  padding: 0.25rem;
   display: inline-block;
 }
 .vertical-scrolling-wrapper {
