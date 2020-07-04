@@ -1,37 +1,37 @@
 body {
   background: #f9f9fb;
 }
-.view-account {
+.view-author {
   background: #FFFFFF;
   margin-top: 20px;
   padding-top: 35px;
 }
-.view-account .side-bar {
+.view-author .side-bar {
   padding-bottom: 30px;
   padding-left: 0;
   padding-right: 0;
 }
-.view-account .side-bar .user-info {
+.view-author .side-bar .user-info {
   text-align: center;
   margin-bottom: 15px;
   padding: 30px;
   color: #616670;
   border-bottom: 1px solid #f3f3f3
 }
-.view-account .side-bar .user-info .meta li {
+.view-author .side-bar .user-info .meta li {
   margin-bottom: 10px
 }
-.view-account .side-bar .user-info .meta li a {
+.view-author .side-bar .user-info .meta li a {
   color: #616670
 }
-.view-account .side-bar .side-menu {
+.view-author .side-bar .side-menu {
   text-align: center;
 }
-.view-account .side-bar .side-menu .nav {
+.view-author .side-bar .side-menu .nav {
   display: inline-block;
   margin: 0 auto
 }
-.view-account .side-bar .side-menu .nav>li {
+.view-author .side-bar .side-menu .nav>li {
   font-size: 14px;
   margin-bottom: 0;
   border-bottom: none;
@@ -39,26 +39,26 @@ body {
   margin-right: 15px;
   margin-bottom: 15px
 }
-.view-account .side-bar .side-menu .nav>li>a {
+.view-author .side-bar .side-menu .nav>li>a {
   display: inline-block;
   color: #9499a3;
   padding: 5px;
   border-bottom: 2px solid transparent
 }
-.view-account .side-bar .side-menu .nav>li>a:hover {
+.view-author .side-bar .side-menu .nav>li>a:hover {
   color: #616670;
   background: none
 }
-.view-account .side-bar .side-menu .nav>li.active a {
+.view-author .side-bar .side-menu .nav>li.active a {
   color: #40babd;
   border-bottom: 2px solid #40babd;
   background: none;
   border-right: none
 }
-.view-account .content-panel {
+.view-author .content-panel {
   padding: 30px
 }
-.view-account .content-panel .fieldset-title {
+.view-author .content-panel .fieldset-title {
   padding-bottom: 15px;
   border-bottom: 1px solid #eaeaf1;
   margin-bottom: 30px;
@@ -75,7 +75,7 @@ body {
   padding-top: 5px;
 }
 @media (max-width:767px) {
-  .view-account .side-bar .side-menu .nav>li>a {
+  .view-author .side-bar .side-menu .nav>li>a {
     padding: 0;
   }
   .portrait {
@@ -83,13 +83,13 @@ body {
     max-width: 100px;
     align-self: center;
   }
-  .view-account .side-bar .user-info {
+  .view-author .side-bar .user-info {
     padding: 0
   }
-  .view-account .side-bar .user-info .meta li {
+  .view-author .side-bar .user-info .meta li {
     margin-bottom: 5px
   }
-  .view-account .content-panel {
+  .view-author .content-panel {
     padding: 0
   }
   .book-image {
@@ -113,7 +113,7 @@ body {
     max-width: 300px;
     align-self: center;
   }
-  .view-account .side-bar .user-info {
+  .view-author .side-bar .user-info {
     padding: 0;
     padding-bottom: 15px
   }
@@ -141,21 +141,21 @@ body {
   .container-content {
     min-height: 800px;
   }
-  .view-account .content-panel {
+  .view-author .content-panel {
     border-left: 1px solid #f3f3f7;
   }
-  .view-account .side-bar .user-info {
+  .view-author .side-bar .user-info {
     margin-bottom: 0;
     border-bottom: none;
     padding-top: 30px
   }
-  .view-account .side-bar .side-menu {
+  .view-author .side-bar .side-menu {
     text-align: left
   }
-  .view-account .side-bar .side-menu .nav {
+  .view-author .side-bar .side-menu .nav {
     display: block
   }
-  .view-account .side-bar .side-menu .nav>li {
+  .view-author .side-bar .side-menu .nav>li {
     display: block;
     float: none;
     font-size: 14px;
@@ -163,23 +163,20 @@ body {
     margin-right: 0;
     margin-bottom: 0
   }
-  .view-account .side-bar .side-menu .nav>li>a {
+  .view-author .side-bar .side-menu .nav>li>a {
     display: block;
     color: #9499a3;
     padding: 10px 15px;
     padding-left: 30px
   }
-  .view-account .side-bar .side-menu .nav>li>a:hover {
+  .view-author .side-bar .side-menu .nav>li>a:hover {
     background: #f9f9fb
   }
-  .view-account .side-bar .side-menu .nav>li.active a {
+  .view-author .side-bar .side-menu .nav>li.active a {
     background: #f9f9fb;
     border-right: 4px solid #40babd;
     border-bottom: none
   }
-}
-.jumbotron {
-  background-color: #E5E5E5;
 }
 .dont-break-out {
   overflow-wrap: break-word;
@@ -196,35 +193,9 @@ body {
   margin-bottom: 10px;
   margin-top: 10px;
 }
-.full-width {
-  width: 100%;
-}
-.maximum-width {
-  max-width: 100%;
-}
-.margin-top-10 {
-  margin-top: 10px;
-}
 .reference-buttons {
   padding-right: 1rem;
   text-align: -webkit-right;
-}
-.searched-book-result {
-  font-style: italic;
-  background: #e7e8eb;
-  color: #000000;
-  font-size: 13px;
-  border-style: solid;
-  border-width: 1px;
-  padding-right: 5px;
-  margin-bottom: -10px;
-  margin-top: 5px;
-}
-.searched-book-result:hover {
-  background: #ffffff;
-}
-.search-input {
-  width: 100%;
 }
 .search-results-container {
   overflow-y: auto;

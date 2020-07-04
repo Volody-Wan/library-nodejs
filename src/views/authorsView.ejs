@@ -19,7 +19,7 @@
   <%- include("./partials/header") %>
 
   <div class="container">
-    <div id="containerContent" class="view-account container-content row">
+    <div id="containerContent" class="view-author container-content row">
       <div id="sideMenu" class="vertical-scrolling-wrapper side-bar col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
         <nav class="vertical-container side-menu">
           <ul class="nav">
@@ -37,47 +37,7 @@
 
   <%- include("./partials/footer") %>
 
-  <script>
-    function positionFooter() {
-      var $footer = $("#footer");
-      
-      if (($(window).height() > $(document.body).height() + $footer.height())) {
-        $footer.css({
-          bottom: 0
-        })
-        $footer.css({
-          width: "100%"
-        })
-        $footer.css({
-          position: 'absolute'
-        })
-      } else {
-        $footer.css({
-          position: 'relative'
-        })
-      }
-    }
-    function sideListSize() {
-      var $sideMenu = $("#sideMenu"),
-        $footer = $("#footer"),
-        $navigation = $("#navigation"),
-        $containerContent = $("#containerContent");
-      $containerContent.css({
-        "max-height": $(window).height() - ($navigation.height() + $footer.height())
-      })
-      $sideMenu.css({
-        "max-height": $(window).height() - ($navigation.height() + $footer.height())
-      })
-    }
-    $(window).bind("load", function () {
-      sideListSize();
-      positionFooter();
-    });
-    $(window).resize(function () {
-      sideListSize();
-      positionFooter();
-    });
-  </script>
+  <script src="/js/author/authorsView.js"></script>
 
 </body>
 

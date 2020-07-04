@@ -1,8 +1,6 @@
-#containerDiv {
-    margin-top: 86px;
-}
-#searchContainer {
-    border-style: ridge;
+.search-container {
+  border-left: 1px solid #f3f3f7;
+  border-bottom: 1px solid #f3f3f7;
 }
 .book-card {
     margin-bottom: 10px;
@@ -12,9 +10,6 @@ ul {
 }
 .card-footer {
     text-align: center;
-}
-.search-input {
-    width: 100%;
 }
 .search-results-container {
     margin-top: 10px;
@@ -37,4 +32,34 @@ ul {
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
+    .update-book-ref {
+      max-width: 70px;
+    }
+}
+@media (min-width:768px) {
+  .update-book-ref {
+    max-width: 130px;
+  }
+}
+@media (min-width:992px) {
+  .update-book-ref {
+    max-width: 220px;
+  }
+}
+.admin-image {
+    max-height: 190px;
+}
+.admin-add-content-container {
+    background-color: #ffffff;
+    margin-top: 20px;
+}
+.admin-add-content {
+    padding: 30px;
+}
+.form-group div p {
+    margin: 0;
+}
+.search-results-container {
+  margin-top: 10px;
+  overflow-y: auto;
 }

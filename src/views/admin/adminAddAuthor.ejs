@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title id="title"><%=title%></title>
+
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+  <link href="/css/admin.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <%- include("../partials/header") %>
+  <div class="container jumbotron">
+    <div class="admin-add-content-container">
+      <div class="admin-add-content">
+        <form class="row" action="/admin/addAuthor" method="post">
+          <div class="form-group full-width">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Full Name:</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="text" name="authorFullName" class="form-control" value="" required>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Image:</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="text" name="authorImage" class="form-control" value="" required>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Birth:</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="text" name="authorBirthday" class="form-control" value="" required>
+              <p class="help-block">e.g. Year-month-day: 2000-12-31</p>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Death:</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="text" name="authorDeathday" class="form-control" value="">
+              <p class="help-block">e.g. Year-month-day: 2020-02-22</p>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Nationality:</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="text" name="authorNationality" class="form-control" value="" required>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Language:</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="text" name="authorLanguage" class="form-control" value="" required>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Genres:</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="text" name="authorGenres" class="form-control" value="" required>
+              <p class="help-block">e.g. Novel, short story, report, autobiographical stories</p>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Genres:</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="text" name="authorGenres" class="form-control" value="" required>
+              <p class="help-block">e.g. Novel, short story, report, autobiographical stories</p>
+            </div>
+          </div>
+          <div id="searchContainer" class="form-group full-width">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Search for Books:</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="text" class="form-control" onkeyup="searchForBook(this.value)">
+              <div id="searchResultsContainer"
+                class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 search-results-container-list">
+
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <%- include("../partials/footer") %>
+</body>
+
+</html>

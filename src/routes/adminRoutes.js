@@ -5,12 +5,20 @@ const adminController = require('../controllers/adminController');
 const adminRoutes = express.Router();
 
 function router(nav) {
-  const { middleware, getRecommendedBooks, updateRecommendedBooks } = adminController(nav);
+  const {
+    middleware,
+    getAdminPage,
+    getRecommendedBooks,
+    updateRecommendedBooks,
+    getAddAuthor,
+  } = adminController(nav);
   adminRoutes.use(middleware);
-  adminRoutes.route('/')
-    .get(getRecommendedBooks);
-    adminRoutes.route('/')
-      .post(updateRecommendedBooks);
+  adminRoutes.route('/').get(getAdminPage);
+  adminRoutes.route('/recommendedBooks')
+    .get(getRecommendedBooks)
+    .post(updateRecommendedBooks);
+  adminRoutes.route('/addAuthor')
+    .get(getAddAuthor);
 
   return adminRoutes;
 }

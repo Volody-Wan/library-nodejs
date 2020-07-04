@@ -12,7 +12,7 @@
 
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/styles.css" rel="stylesheet">
-  <link href="/css/list-books-styles.css" rel="stylesheet">
+  <link href="/css/books.css" rel="stylesheet">
 
 </head>
 
@@ -58,35 +58,6 @@
   </div>
 
   <%- include("./partials/footer") %>
-
-  <script>
-    function positionFooter() {
-      var $navigation = $("#navigation"),
-        $footer = $("#footer");
-      footerHeight = $footer.height();
-      if (($(window).height() > $(document.body).height() - $navigation.height() + $footer.height())) {
-        $footer.css({
-          bottom: 0
-        })
-        $footer.css({
-          width: "100%"
-        })
-        $footer.css({
-          position: 'absolute'
-        })
-      } else {
-        $footer.css({
-          position: 'relative'
-        })
-      }
-    }
-    $(window).bind("load", function () {
-      positionFooter();
-    });
-    $(window).resize(function () {
-      positionFooter();
-    });
-  </script>
 
 </body>
 
