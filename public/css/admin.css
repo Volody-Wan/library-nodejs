@@ -32,19 +32,6 @@ ul {
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
-    .update-book-ref {
-      max-width: 70px;
-    }
-}
-@media (min-width:768px) {
-  .update-book-ref {
-    max-width: 130px;
-  }
-}
-@media (min-width:992px) {
-  .update-book-ref {
-    max-width: 220px;
-  }
 }
 .admin-image {
     max-height: 190px;

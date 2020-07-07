@@ -31,7 +31,7 @@ function bookController(nav) {
               $lookup:
               {
                 from: 'books',
-                'let': { bookId: { $toObjectId: '$bookId' } },
+                let: { bookId: { $toObjectId: '$bookId' } },
                 pipeline: [
                   {
                     $match:
@@ -39,16 +39,16 @@ function bookController(nav) {
                       $expr:
                       {
                         $eq: ['$_id', '$$bookId'],
-                      }
-                    }
+                      },
+                    },
                   },
-                  { $project: { image: true, _id: false } }
+                  { $project: { image: true, _id: false } },
                 ],
-                as: 'book'
-              }
+                as: 'book',
+              },
             },
             {
-              $unwind: '$book'
+              $unwind: '$book',
             }]).toArray();
         }
 
@@ -61,7 +61,7 @@ function bookController(nav) {
             .toArray();
 
           if (page === '1') {
-            res.render('booksListView',
+            res.render('books/booksListView',
               {
                 nav,
                 title: 'Books',
@@ -76,7 +76,7 @@ function bookController(nav) {
             {}, { projection: { title: 1, author: 1, image: 1 } },
           ).sort({ title: 1 }).toArray();
 
-          res.render('booksListView',
+          res.render('books/booksListView',
             {
               nav,
               title: 'Books',
@@ -107,9 +107,9 @@ function bookController(nav) {
         const authorsbooksCol = db.collection('authorsbooks');
 
         const book = await col.findOne({ _id: new ObjectID(id) });
-        const { authorId } = await authorsbooksCol.findOne({ booksIds: { $in: [ id ] } }) || {};
+        const { authorId } = await authorsbooksCol.findOne({ booksIds: { $in: [id] } }) || {};
 
-        res.render('bookView',
+        res.render('books/bookView',
           {
             nav,
             title: 'Books',

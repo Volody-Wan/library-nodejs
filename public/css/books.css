@@ -6,10 +6,6 @@ body {
   background-color: white;
   word-break: break-word;
 }
-.book-detail-image {
-  max-width: 250px;
-  max-height: 400px;
-}
 .book-card {
   text-align: left;
 }

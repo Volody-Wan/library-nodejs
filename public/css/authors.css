@@ -69,19 +69,9 @@ body {
   word-break: break-word;
   padding-left: 16px;
 }
-.book-image {
-  margin-left: 0;
-  margin-right: 0;
-  padding-top: 5px;
-}
 @media (max-width:767px) {
   .view-author .side-bar .side-menu .nav>li>a {
     padding: 0;
-  }
-  .portrait {
-    max-height: 100px;
-    max-width: 100px;
-    align-self: center;
   }
   .view-author .side-bar .user-info {
     padding: 0
@@ -92,52 +82,17 @@ body {
   .view-author .content-panel {
     padding: 0
   }
-  .book-image {
-    max-height: 100px;
-    max-width: 100px;
-  }
-  .update-book-ref {
-    max-width: 70px;
-  }
-  .sm-remove-button {
-    padding: .25rem .5rem;
-    font-size: .875rem;
-    line-height: 1.5;
-    border-radius: .2rem;
-    font-size: small;
+  .reference-buttons {
+    padding-right: 2rem;
   }
 }
 @media (min-width:768px) {
-  .portrait {
-    max-height: 300px;
-    max-width: 300px;
-    align-self: center;
-  }
   .view-author .side-bar .user-info {
     padding: 0;
     padding-bottom: 15px
   }
-  .book-image {
-    max-height: 200px;
-    max-width: 200px;
-  }
-  .update-book-ref {
-    max-width: 130px;
-  }
 }
 @media (min-width:992px) {
-  .portrait {
-    max-height: 400px;
-    max-width: 400px;
-    align-self: center;
-  }
-  .book-image {
-    max-height: 250px;
-    max-width: 250px;
-  }
-  .update-book-ref {
-    max-width: 220px;
-  }
   .container-content {
     min-height: 800px;
   }
@@ -192,10 +147,6 @@ body {
   text-align: -webkit-right;
   margin-bottom: 10px;
   margin-top: 10px;
-}
-.reference-buttons {
-  padding-right: 1rem;
-  text-align: -webkit-right;
 }
 .search-results-container {
   overflow-y: auto;

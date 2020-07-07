@@ -16,22 +16,21 @@ function router(nav) {
       failureRedirect: '/',
       failureFlash: true,
     }),
-      function (req, res) {
-        if (req.user.role !== 'admin') {
-          if (adminFlag) {
-            nav.pop(element => {
-              element.title === 'Admin'
-            });
-            adminFlag = false;
-          }
-        } else {
-          if (!adminFlag) {
-            nav.push({ link: '/admin', title: 'Admin' });
-            adminFlag = true;
-          }
+    (req, res) => {
+      if (req.user.role !== 'admin') {
+        if (adminFlag) {
+          nav.pop((element) => {
+            // eslint-disable-next-line no-unused-expressions
+            element.title === 'Admin';
+          });
+          adminFlag = false;
         }
-        res.redirect('/profile');
-      });
+      } else if (!adminFlag) {
+        nav.push({ link: '/admin', title: 'Admin' });
+        adminFlag = true;
+      }
+      res.redirect('/profile');
+    });
 
   authRoutes.route('/logout').get(getLogout);
 

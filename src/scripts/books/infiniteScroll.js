@@ -1,18 +1,21 @@
+/* eslint-disable no-console */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-undef */
+let nextPage = 1;
+let morePages = true;
+const $loader = $('#loader');
+const $infiniteList = $('#infiniteList');
 
-let nextPage = 1,
-  morePages = true;
-const $loader = $("#loader"),
-  $infiniteList = $("#infiniteList");
-  
 $loader.fadeOut();
 
 function getNextPage() {
   clearTimeout(timer);
   timer = setTimeout(() => {
-    let value = ++nextPage;
+    nextPage += 1;
+    const value = nextPage;
     axios.get(`/books?page=${value}`).then((req) => {
       if (req.data.length > 0) {
-        req.data.forEach(element => {
+        req.data.forEach((element) => {
           $infiniteList.append(`
             <div class="col-lg-3 col-md-6 mb-4">
               <div class="card h-100">
@@ -32,13 +35,13 @@ function getNextPage() {
         morePages = false;
         $loader.remove();
       }
-    }).catch(err => {
+    }).catch((err) => {
       console.log(err);
     });
   }, 250);
 }
 // Detect when scrolled to bottom.
-$(window).scroll(function () {
+$(window).scroll(() => {
   if (morePages && $(window).scrollTop() >= $(document).height() - $(window).height() - 72) {
     $loader.fadeIn();
     getNextPage();

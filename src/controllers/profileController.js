@@ -24,7 +24,7 @@ function profileController(nav) {
         // eslint-disable-next-line no-underscore-dangle
         const user = await col.findOne({ _id: new ObjectID(req.user._id) });
 
-        res.render('profileView', {
+        res.render('profile/profileView', {
           nav,
           title: 'Profile',
           user,

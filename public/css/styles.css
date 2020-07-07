@@ -1,6 +1,6 @@
 @import url('http://fonts.googleapis.com/css?family=Oswald:300,400:latin,latin-ext');
 ul {
-  list-style: upper-roman;
+  list-style: none;
 }
 blockquote {
   margin: 0rem 4rem 0rem;
@@ -122,4 +122,79 @@ h3 {
 }
 .jumbotron {
   background-color: #E5E5E5;
+}
+.book-image {
+  margin-left: 0;
+  margin-right: 0;
+  padding-top: 5px;
+}
+@media (max-width:767px) {
+  .book-image {
+    max-height: 100px;
+    max-width: 100px;
+  }
+  .sm-remove-button {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    font-size: small;
+  }
+  .update-book-ref {
+    max-width: 70px;
+  }
+  .portrait {
+    max-height: 100px;
+    max-width: 100px;
+    align-self: center;
+  }
+}
+@media (min-width:768px) {
+  .book-image {
+    max-height: 200px;
+    max-width: 200px;
+  }
+  .update-book-ref {
+    max-width: 130px;
+  }
+  .portrait {
+    max-height: 300px;
+    max-width: 300px;
+    align-self: center;
+  }
+}
+@media (min-width:992px) {
+  .book-image {
+    max-height: 250px;
+    max-width: 250px;
+  }
+  .update-book-ref {
+    max-width: 220px;
+  }
+  .portrait {
+    max-height: 400px;
+    max-width: 400px;
+    align-self: center;
+  }
+}
+.form-group.required .control-label:after { 
+  content:"*";
+  color:red;
+}
+.padding-10 {
+  padding: 10px;
+}
+.book-detail-image {
+  max-width: 250px;
+  max-height: 400px;
+}
+.text-align-left {
+  text-align: left;
+}
+.search-results-container-admin {
+  max-height: 5rem;
+  overflow-y: auto;
+}
+.reference-buttons {
+  text-align: -webkit-right;
 }

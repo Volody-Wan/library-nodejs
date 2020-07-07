@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title id="title"><%=title%></title>
+
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+  <link href="/css/admin.css" rel="stylesheet">
+  <script src="https://cdn.tiny.cloud/1/b3djhg5898pm308mxe9r7uprjt4x6pz7eivf62i36lwkp1dy/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: '#bookDescription',
+      menubar: false,
+      height: '500px'
+    });
+  </script>
+
+</head>
+
+<body>
+  <%- include("../partials/header") %>
+
+  <div id="content" class="container jumbotron">
+    <div class="admin-add-content-container">
+      <div class="admin-add-content">
+        <form action="/admin/addBook" method="post">
+          <div class="row text-center">
+            <div class="col-xl-3">
+              <div class="form-group text-align-left full-width required">
+                <label for="bookTitle" class="control-label">Book Title:</label>
+                <input type="text" name="bookTitle" class="form-control" value="" required>
+              </div>
+              <div class="form-group text-align-left full-width required">
+                <label for="bookImage" class="control-label">Image:</label>
+                <input type="text" name="bookImage" class="form-control" oninput="updatePicture(this.value)" value=""
+                  required>
+              </div>
+              <div class="form-group text-align-left full-width required">
+                <img id="editBookImage" class="book-detail-image card-img-top" src="" alt="">
+              </div>
+              <div class="form-group text-align-left full-width required">
+                <label for="bookAuthor" class="control-label">Book Author:</label>
+                <input type="text" id="bookAuthor" name="bookAuthor" class="form-control"
+                  onkeyup="searchForAuthor(this.value)" value="" required>
+                <input type="text" id="bookAuthorId" name="bookAuthorId" class="form-control" value="" hidden>
+                <div id="searchResultsContainer" class="search-results-container-admin">
+
+                </div>
+              </div>
+              <div class="form-group text-align-left full-width required">
+                <label for="bookPublication" class="control-label">Book publication date (free format):</label>
+                <input type="text" name="bookPublication" class="form-control" value="" required>
+              </div>
+              <div class="form-group text-align-left full-width required">
+                <label for="bookLanguage" class="control-label">Book original language:</label>
+                <input type="text" name="bookLanguage" class="form-control" value="" required>
+              </div>
+              <div class="form-group text-align-left full-width required">
+                <label for="bookGenre" class="control-label">Book genre:</label>
+                <input type="text" name="bookGenre" class="form-control" value="" required>
+              </div>
+            </div>
+            <div class="form-group text-align-left col-xl-9 required">
+              <div class="row">
+                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Description:</label>
+              </div>
+              <div id="descriptionDiv">
+                <textarea id="bookDescription" name="bookDescription" class="full-width"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <div class="row">
+              <label class="col-md-2 col-sm-3 col-xs-12 control-label">References:</label>
+            </div>
+            <ul id="unorderedEditReferenceList">
+              <li class="full-width">
+                <input class="full-width margin-top-10 form-control" name="editReferenceList" value="">
+              </li>
+            </ul>
+            <div class="reference-buttons">
+              <input class="btn btn-outline-danger margin-top-10" type="button" value="Remove Reference"
+                onclick="removeReference()">
+              <input class="btn btn-outline-success margin-top-10" type="button" value="Add Reference"
+                onclick="addReference()">
+            </div>
+          </div>
+          <div class="row form-group full-width">
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input class="btn btn-outline-dark" type="submit" value="Add Book">
+            </div>
+            <div class="col-md-10 col-sm-9 col-xs-12 margin-top-10">
+              <a class="btn btn-outline-danger" href="/admin">Cancel</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <%- include("../partials/footer") %>
+  <script src="/js/admin/editCommon.js"></script>
+  <script src="/js/admin/editBook.js"></script>
+</body>
+
+</html>

@@ -12,7 +12,7 @@ function searchController() {
 
   function searchAuthors(req, res) {
     const { query } = req.query;
-    if (query.length >= 3) {
+    if (query.length >= 2) {
       const url = 'mongodb://localhost:27017';
       const dbName = 'librarian';
 

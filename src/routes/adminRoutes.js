@@ -11,6 +11,9 @@ function router(nav) {
     getRecommendedBooks,
     updateRecommendedBooks,
     getAddAuthor,
+    addAuthor,
+    getAddBook,
+    addBook,
   } = adminController(nav);
   adminRoutes.use(middleware);
   adminRoutes.route('/').get(getAdminPage);
@@ -18,7 +21,11 @@ function router(nav) {
     .get(getRecommendedBooks)
     .post(updateRecommendedBooks);
   adminRoutes.route('/addAuthor')
-    .get(getAddAuthor);
+    .get(getAddAuthor)
+    .post(addAuthor);
+  adminRoutes.route('/addBook')
+    .get(getAddBook)
+    .post(addBook);
 
   return adminRoutes;
 }

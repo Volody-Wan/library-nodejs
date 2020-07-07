@@ -24,7 +24,7 @@
 </head>
 
 <body>
-  <%- include("./partials/header") %>
+  <%- include("../partials/header") %>
 
   <div class="container">
     <div class="view-author container-content row">
@@ -96,7 +96,7 @@
               <label class="full-width"><b>Image:</b><input class="full-width form-control" name="updatedAuthorImage"
                   value="<%= author.image %>" oninput="updatePicture(this.value)"></label>
               </br>
-              <img id="imageUpdate" class="card-img-top portrait" src="<%= author.image %>" alt="">
+              <img id="editImage" class="card-img-top portrait" src="<%= author.image %>" alt="">
               <div class="card-body">
                 <h4 class="card-title"><input class="maximum-width form-control" value="<%= author.name %>"
                     name="updateAuthorName">
@@ -137,11 +137,11 @@
                   <% if (books) { %>
                   <% for (let i = 0; i < books.length; i++) { %>
                   <div id="<%= books[i].id %>-div" class="update-book-ref horizontal-container">
-                    <input class="btn btn-outline-danger full-width row sm-remove-button" type="button" value="Remove"
+                    <input class="btn btn-outline-danger full-width row sm-remove-button book-image" type="button" value="Remove"
                       onclick="removeBookFromAuthor('<%= books[i].id %>')">
                     <input id="<%= books[i].id %>" class="book-image row" type="image" src="<%= books[i].image %>"
                       disabled>
-                    <input name="updateAuthorBooks" value="<%= books[i].id %>" hidden>
+                    <input name="editAuthorBooks" value="<%= books[i].id %>" hidden>
                   </div>
                   <% } %>
                   <% } %>
@@ -149,18 +149,18 @@
               </div>
               <div class="row references-label">
                 <label><b>References:</b></label>
-                <ul id="unorderedUpdateReferenceList" class="row col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <ul id="unorderedEditReferenceList" class="row col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 
                   <% if (author.references) { %>
                   <% for (let i = 0; i < author.references.length; i++) { %>
                   <li class="full-width">
-                    <input class="full-width margin-top-10 form-control" name="updateReferenceList"
+                    <input class="full-width margin-top-10 form-control" name="editReferenceList"
                       value="<%= author.references[i] %>">
                   </li>
                   <% } %>
                   <% } else { %>
                   <li class="full-width">
-                    <input class="full-width margin-top-10 form-control" name="updateReferenceList" value="">
+                    <input class="full-width margin-top-10 form-control" name="editReferenceList" value="">
                   </li>
                   <% } %>
                 </ul>
@@ -182,10 +182,11 @@
     </div>
   </div>
 
-  <%- include("./partials/footer") %>
+  <%- include("../partials/footer") %>
 
   <script src="/js/author/authorView.js"></script>
   <% if (userRole === 'admin') { %>
+    <script src="/js/admin/editCommon.js"></script>
     <script src="/js/admin/editAuthor.js"></script>
   <% } %>
 

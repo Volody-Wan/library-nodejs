@@ -1,6 +1,7 @@
 const { MongoClient, ObjectID } = require('mongodb');
 const debug = require('debug')('app:authorsController');
 const dateformat = require('dateformat');
+const authorService = require('../services/authorService')();
 
 function authorsController(nav) {
   function middleware(req, res, next) {
@@ -25,7 +26,7 @@ function authorsController(nav) {
         const col = db.collection('authors');
         const authors = await col.find({}).project({ name: 1 }).sort({ name: 1 }).toArray();
 
-        res.render('authorsView',
+        res.render('authors/authorsView',
           {
             nav,
             title: 'Authors',
@@ -63,11 +64,11 @@ function authorsController(nav) {
           {
             $match:
             {
-              authorId: id
-            }
+              authorId: id,
+            },
           },
           {
-            '$unwind': '$booksIds'
+            $unwind: '$booksIds',
           },
           {
             $lookup:
@@ -81,22 +82,22 @@ function authorsController(nav) {
                     $expr:
                     {
                       $eq: ['$_id', '$$bookIds'],
-                    }
-                  }
+                    },
+                  },
                 },
                 {
                   $project:
                   {
                     image: true,
-                    _id: false
-                  }
-                }
+                    _id: false,
+                  },
+                },
               ],
-              as: 'books'
-            }
+              as: 'books',
+            },
           },
           {
-            $unwind: '$books'
+            $unwind: '$books',
           },
           {
             $group: {
@@ -104,32 +105,32 @@ function authorsController(nav) {
               books: {
                 $push: {
                   id: '$booksIds',
-                  image: '$books.image'
-                }
-              }
-            }
+                  image: '$books.image',
+                },
+              },
+            },
           },
           {
             $project:
             {
               books: true,
-              _id: false
-            }
-          }
+              _id: false,
+            },
+          },
         ]).toArray();
 
         if (authorBooksResult && authorBooksResult[0]) {
           books = authorBooksResult[0].books;
         }
 
-        res.render('authorView',
+        res.render('authors/authorView',
           {
             nav,
             title: 'Authors',
             authors,
             author,
             books,
-            userRole: req.user.role
+            userRole: req.user.role,
           });
       } catch (err) {
         debug(err.stack);
@@ -143,37 +144,33 @@ function authorsController(nav) {
       next();
     } else {
       res.json({
-        error: "Operation not allowed"
+        error: 'Operation not allowed',
       });
     }
 
     const { id } = req.params;
 
-    let updateAuthor = {
+    const updateAuthor = {
       name: req.body.updateAuthorName,
       birth: req.body.updateAuthorBirthDay,
       death: req.body.updateAuthorDeathDay,
       language: req.body.updateAuthorLanguage,
       biography: req.body.updateAuthorBiography,
       image: req.body.updatedAuthorImage,
-      references: req.body.updateReferenceList,
+      references: req.body.editReferenceList,
       genre: req.body.updateAuthorGenres,
       nationality: req.body.updateAuthorNationality,
-    }
+    };
 
-    let error = {};
-    let isAuthorInvalid = validateAuthorIntegrity(updateAuthor, error);
-    let isAuthorBooksInvalid = valdiateAuthorBooksIntegrity(req.body.updateAuthorBooks, error);
+    const error = {};
+    const isAuthorInvalid = authorService.validateAuthorIntegrity(updateAuthor, error);
+    const isAuthorBooksInvalid = authorService
+      .valdiateAuthorBooksIntegrity(req.body.editAuthorBooks, error);
 
     if (isAuthorInvalid || isAuthorBooksInvalid) {
       res.json(error);
     } else {
-      let authorBooks;
-      if (typeof req.body.updateAuthorBooks === "string") {
-        authorBooks = Object.values([req.body.updateAuthorBooks]);
-      } else if (Array.isArray(req.body.updateAuthorBooks)) {
-        authorBooks = req.body.updateAuthorBooks.filter(item => item);
-      }
+      const authorBooks = authorService.convertAuthorBooks(req.body.editAuthorBooks);
 
       const url = 'mongodb://localhost:27017';
       const dbName = 'librarian';
@@ -199,20 +196,20 @@ function authorsController(nav) {
               references: updateAuthor.references,
               genre: updateAuthor.genre,
               nationality: updateAuthor.nationality,
-            }
+            },
           });
 
           await authorsBooksCollection.updateOne({
-            authorId: id
+            authorId: id,
           },
-            {
-              $set: {
-                booksIds: authorBooks
-              }
+          {
+            $set: {
+              booksIds: authorBooks,
             },
-            {
-              upsert: true
-            });
+          },
+          {
+            upsert: true,
+          });
         } catch (err) {
           debug(err.stack);
         }
@@ -226,104 +223,8 @@ function authorsController(nav) {
     middleware,
     getAuthors,
     getAuthorById,
-    updateUserById
+    updateUserById,
   };
-}
-
-function validateAuthorIntegrity(author, error) {
-  let hasError = false;
-
-  if (!author.name) {
-    error.name = 'Name must be provided';
-    hasError = true;
-  }
-  if (!author.birth) {
-    error.birth = 'Birthday must be provided';
-    hasError = true;
-  } else {
-    hasError = validateDate(author.birth, error, error.birth, hasError);
-  }
-  if (author.death) {
-    hasError = validateDate(author.death, error, error.death, hasError);
-  }
-  if (!author.language) {
-    error.language = 'Language must be provided';
-    hasError = true;
-  }
-  if (!author.biography) {
-    error.biography = 'Biography must be provided';
-    hasError = true;
-  }
-  if (!author.image) {
-    error.image = 'Image must be provided';
-    hasError = true;
-  }
-  if (!author.genre) {
-    error.genre = 'Genre must be provided';
-    hasError = true;
-  }
-  if (!author.nationality) {
-    error.nationality = 'Nationality must be provided';
-    hasError = true;
-  }
-  if (author.references) {
-    if (typeof author.references === "string") {
-      author.references = Object.values([author.references]);
-    } else if (Array.isArray(author.references)) {
-      author.references = author.references.filter(item => item);
-    } else {
-      error.references = 'Reference must be either as a String or Array of Strings';
-      hasError = true;
-    }
-  }
-
-  if (hasError) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function valdiateAuthorBooksIntegrity(authorbooks, error) {
-  let hasError = false;
-  if (authorbooks) {
-    if (typeof authorbooks === "string" || Array.isArray(authorbooks)) {
-      return false;
-    }
-    else {
-      error.authorbooks = 'Books must be provided either as a String or Array of Strings';
-      hasError = true;
-    }
-  }
-
-  if (hasError) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function validateDate(date, error, errorField, hasError) {
-  if (date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    try {
-      new Date(date).toISOString();
-    } catch (err) {
-      error.errorField = 'Invalid Date';
-      hasError = true;
-    }
-  } else {
-    error.errorField = 'Invalid format, must be yyyy-mm-dd';
-    hasError = true;
-  }
-  return hasError;
-}
-
-function convertAuthorBooks(authorbooks) {
-  if (typeof authorbooks === "string") {
-    return Object.values([authorbooks]);
-  } else if (Array.isArray(req.body.updateAuthorBooks)) {
-    return req.body.updateAuthorBooks.filter(item => item);
-  }
 }
 
 module.exports = authorsController;

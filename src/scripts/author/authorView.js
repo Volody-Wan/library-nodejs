@@ -1,11 +1,13 @@
-const $articleContentUpdate = $("#articleContentUpdate"),
-  $article = $("#article"),
-  $sideMenu = $("#sideMenu"),
-  $articleContent = $("#articleContent");
+/* eslint-disable no-undef */
+const $articleContentUpdate = $('#articleContentUpdate');
+const $article = $('#article');
+const $sideMenu = $('#sideMenu');
+const $articleContent = $('#articleContent');
 let updateHidden = true;
 
 $articleContentUpdate.hide();
 
+// eslint-disable-next-line no-unused-vars
 function updateContent() {
   if (updateHidden) {
     $articleContentUpdate.show();
@@ -18,20 +20,20 @@ function updateContent() {
   }
 }
 function sideListSize() {
-  if (window.matchMedia("(max-width: 767px)").matches) {
+  if (window.matchMedia('(max-width: 767px)').matches) {
     $sideMenu.css({
-      height: $articleContent.height()
-    })
+      height: $articleContent.height(),
+    });
   } else {
     $sideMenu.css({
-      height: $article.height()
-    })
+      height: $article.height(),
+    });
   }
 }
 
-$(window).bind("load", function () {
+$(window).bind('load', () => {
   sideListSize();
 });
-$(window).resize(function () {
+$(window).resize(() => {
   sideListSize();
 });

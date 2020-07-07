@@ -12,6 +12,14 @@
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/styles.css" rel="stylesheet">
   <link href="/css/admin.css" rel="stylesheet">
+  <script src="https://cdn.tiny.cloud/1/b3djhg5898pm308mxe9r7uprjt4x6pz7eivf62i36lwkp1dy/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: '#authorBiography',
+      menubar: false
+    });
+  </script>
 
 </head>
 
@@ -21,23 +29,24 @@
     <div class="admin-add-content-container">
       <div class="admin-add-content">
         <form class="row" action="/admin/addAuthor" method="post">
-          <div class="form-group full-width">
+          <div class="form-group full-width required">
             <label class="col-md-2 col-sm-3 col-xs-12 control-label">Full Name:</label>
             <div class="col-md-10 col-sm-9 col-xs-12">
               <input type="text" name="authorFullName" class="form-control" value="" required>
             </div>
           </div>
-          <div class="form-group full-width">
+          <div class="form-group full-width required">
             <label class="col-md-2 col-sm-3 col-xs-12 control-label">Image:</label>
             <div class="col-md-10 col-sm-9 col-xs-12">
-              <input type="text" name="authorImage" class="form-control" value="" required>
+              <input type="text" name="authorImage" class="form-control" value="" oninput="updatePicture(this.value)" required>
+              <img id="editImage" class="card-img-top portrait padding-10" src="" alt="">
             </div>
           </div>
-          <div class="form-group full-width">
+          <div class="form-group full-width required">
             <label class="col-md-2 col-sm-3 col-xs-12 control-label">Birth:</label>
             <div class="col-md-10 col-sm-9 col-xs-12">
               <input type="text" name="authorBirthday" class="form-control" value="" required>
-              <p class="help-block">e.g. Year-month-day: 2000-12-31</p>
+              <p class="help-block">e.g. Year-month-day: 1826-12-31</p>
             </div>
           </div>
           <div class="form-group full-width">
@@ -47,30 +56,31 @@
               <p class="help-block">e.g. Year-month-day: 2020-02-22</p>
             </div>
           </div>
-          <div class="form-group full-width">
+          <div class="form-group full-width required">
             <label class="col-md-2 col-sm-3 col-xs-12 control-label">Nationality:</label>
             <div class="col-md-10 col-sm-9 col-xs-12">
               <input type="text" name="authorNationality" class="form-control" value="" required>
             </div>
           </div>
-          <div class="form-group full-width">
+          <div class="form-group full-width required">
             <label class="col-md-2 col-sm-3 col-xs-12 control-label">Language:</label>
             <div class="col-md-10 col-sm-9 col-xs-12">
               <input type="text" name="authorLanguage" class="form-control" value="" required>
             </div>
           </div>
-          <div class="form-group full-width">
+          <div class="form-group full-width required">
             <label class="col-md-2 col-sm-3 col-xs-12 control-label">Genres:</label>
             <div class="col-md-10 col-sm-9 col-xs-12">
               <input type="text" name="authorGenres" class="form-control" value="" required>
               <p class="help-block">e.g. Novel, short story, report, autobiographical stories</p>
             </div>
           </div>
-          <div class="form-group full-width">
-            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Genres:</label>
+          <div class="form-group full-width required">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Biography:</label>
             <div class="col-md-10 col-sm-9 col-xs-12">
-              <input type="text" name="authorGenres" class="form-control" value="" required>
-              <p class="help-block">e.g. Novel, short story, report, autobiographical stories</p>
+              <div id="biographyDiv">
+                <textarea id="authorBiography" name="authorBiography" class="full-width"></textarea>
+              </div>
             </div>
           </div>
           <div id="searchContainer" class="form-group full-width">
@@ -78,9 +88,42 @@
             <div class="col-md-10 col-sm-9 col-xs-12">
               <input type="text" class="form-control" onkeyup="searchForBook(this.value)">
               <div id="searchResultsContainer"
-                class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 search-results-container-list">
+                class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 search-results-container-admin">
 
               </div>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <div class="horizontal-scrolling-wrapper row">
+                <div id="authorsBooks" class="card-body horizontal-container">
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">References:</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <ul id="unorderedEditReferenceList">
+                <li class="full-width">
+                  <input class="full-width margin-top-10 form-control" name="editReferenceList" value="">
+                </li>
+              </ul>
+              <div class="reference-buttons">
+                <input class="btn btn-outline-danger margin-top-10" type="button" value="Remove Reference"
+                  onclick="removeReference()">
+                <input class="btn btn-outline-success margin-top-10" type="button" value="Add Reference"
+                  onclick="addReference()">
+              </div>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input class="btn btn-outline-dark" type="submit" value="Add Author">
+            </div>
+            <div class="col-md-10 col-sm-9 col-xs-12 margin-top-10">
+              <a class="btn btn-outline-danger" href="/admin">Cancel</a>
             </div>
           </div>
         </form>
@@ -89,6 +132,8 @@
   </div>
 
   <%- include("../partials/footer") %>
+  <script src="/js/admin/editCommon.js"></script>
+  <script src="/js/admin/editAuthor.js"></script>
 </body>
 
 </html>

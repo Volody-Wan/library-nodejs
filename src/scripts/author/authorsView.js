@@ -1,19 +1,20 @@
-const $sideMenu = $("#sideMenu"),
-  $navigation = $("#navigation"),
-  $containerContent = $("#containerContent");
+/* eslint-disable no-undef */
+const $sideMenu = $('#sideMenu');
+const $navigation = $('#navigation');
+const $containerContent = $('#containerContent');
 
 function sideListSize() {
   $containerContent.css({
-    "max-height": $(window).height() - ($navigation.height() + $footer.height())
-  })
+    'max-height': $(window).height() - ($navigation.height() + $footer.height()),
+  });
   $sideMenu.css({
-    "max-height": $(window).height() - ($navigation.height() + $footer.height())
-  })
+    'max-height': $(window).height() - ($navigation.height() + $footer.height()),
+  });
 }
 
-$(window).bind("load", function () {
+$(window).bind('load', () => {
   sideListSize();
 });
-$(window).resize(function () {
+$(window).resize(() => {
   sideListSize();
 });
