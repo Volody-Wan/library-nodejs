@@ -18,7 +18,8 @@
   <script>
     tinymce.init({
       selector: '#updateAuthorBiography',
-      menubar: false
+      menubar: false,
+      height: '500px',
     });
   </script>
 </head>
@@ -40,7 +41,7 @@
       </div>
       <div class="content-panel col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
         <% if (userRole === 'admin') { %>
-        <div class="right-button-div">
+        <div class="edit-button right-button-div">
           <input class="btn btn-outline-dark" type="submit" value="Edit" onclick="updateContent()">
         </div>
         <% } %>

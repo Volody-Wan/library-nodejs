@@ -14,13 +14,14 @@ function updatePicture(value) {
   }, 250);
 }
 function chooseAuthor(_id, name) {
-  $searchResultsContainer[0].innerHTML = '';
+  $searchResultsContainer.empty();
   $bookAuthor[0].value = name;
   $bookAuthorId[0].value = _id;
 }
 function searchForAuthor(value) {
   clearTimeout(timer);
   timer = setTimeout(() => {
+    $bookAuthorId[0].value = '';
     $searchResultsContainer.empty();
     axios.get(`/search/authors?query=${value}`).then((req) => {
       if (req.data.length) {

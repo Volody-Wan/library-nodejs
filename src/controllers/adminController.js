@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const debug = require('debug')('app:adminController');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectID } = require('mongodb');
 const commonService = require('../services/commonService')();
 const authorService = require('../services/authorService')();
 const bookService = require('../services/bookService')();
@@ -180,6 +180,79 @@ function adminController(nav) {
       }());
     }
   }
+  function updateAuthorById(req, res) {
+    const { id } = req.params;
+
+    const updateAuthor = {
+      name: req.body.updateAuthorName,
+      birth: req.body.updateAuthorBirthDay,
+      death: req.body.updateAuthorDeathDay,
+      language: req.body.updateAuthorLanguage,
+      biography: req.body.updateAuthorBiography,
+      image: req.body.updatedAuthorImage,
+      references: req.body.editReferenceList,
+      genre: req.body.updateAuthorGenres,
+      nationality: req.body.updateAuthorNationality,
+    };
+
+    const error = {};
+    const isAuthorInvalid = authorService.validateAuthorIntegrity(updateAuthor, error);
+    const isAuthorBooksInvalid = authorService
+      .valdiateAuthorBooksIntegrity(req.body.editAuthorBooks, error);
+
+    if (isAuthorInvalid || isAuthorBooksInvalid) {
+      res.json(error);
+    } else {
+      const authorBooks = commonService.convertAuthorBooks(req.body.editAuthorBooks);
+
+      const url = 'mongodb://localhost:27017';
+      const dbName = 'librarian';
+
+      (async function mongo() {
+        let client;
+
+        try {
+          client = await MongoClient.connect(url, { useUnifiedTopology: true });
+
+          const db = client.db(dbName);
+          const authorsCollection = db.collection('authors');
+          const authorsBooksCollection = db.collection('authorsbooks');
+
+          await authorsCollection.updateOne({ _id: new ObjectID(id) }, {
+            $set: {
+              name: updateAuthor.name,
+              birth: updateAuthor.birth,
+              death: updateAuthor.death,
+              language: updateAuthor.language,
+              biography: updateAuthor.biography,
+              image: updateAuthor.image,
+              references: updateAuthor.references,
+              genre: updateAuthor.genre,
+              nationality: updateAuthor.nationality,
+            },
+          });
+
+          await authorsBooksCollection.updateOne(
+            {
+              authorId: id,
+            },
+            {
+              $set: {
+                booksIds: authorBooks,
+              },
+            },
+            {
+              upsert: true,
+            },
+          );
+        } catch (err) {
+          debug(err.stack);
+        }
+        client.close();
+      }());
+    }
+    res.redirect(`/authors/${id}`);
+  }
   function getAddBook(req, res) {
     res.render('admin/adminAddBook',
       {
@@ -274,6 +347,194 @@ function adminController(nav) {
       }());
     }
   }
+  function updateBookById(req, res) {
+    const { id } = req.params;
+
+    const updateBook = {
+      title: req.body.bookTitle,
+      author: req.body.bookAuthor,
+      genre: req.body.bookGenre,
+      image: req.body.bookImage,
+      description: req.body.bookDescription,
+      language: req.body.bookLanguage,
+      published: req.body.bookPublication,
+      references: req.body.editReferenceList,
+    };
+    const previousAuthorId = req.body.previousBookAuthorId;
+    let authorId = req.body.bookAuthorId;
+
+    const error = {};
+    const isBookInvalid = bookService.validateBookIntegrity(updateBook, error);
+
+    if (isBookInvalid) {
+      res.json(error);
+    } else {
+      const url = 'mongodb://localhost:27017';
+      const dbName = 'librarian';
+
+      (async function mongo() {
+        let client;
+
+        try {
+          client = await MongoClient.connect(url, { useUnifiedTopology: true });
+          const db = client.db(dbName);
+
+          const booksCollection = db.collection('books');
+          await booksCollection.updateOne(
+            {
+              _id: new ObjectID(id),
+            },
+            {
+              $set:
+              {
+                title: updateBook.title,
+                author: updateBook.author,
+                genre: updateBook.genre,
+                image: updateBook.image,
+                description: updateBook.description,
+                language: updateBook.language,
+                published: updateBook.published,
+                references: updateBook.references,
+              },
+            },
+          );
+
+          const authorsBooksCollection = db.collection('authorsbooks');
+
+          if (!authorId) {
+            const authorsCollection = db.collection('authors');
+            const author = await authorsCollection.findOne(
+              {
+                name: updateBook.author,
+              },
+              {
+                projection: {
+                  _id: 1,
+                },
+              },
+            ) || {};
+            if (author._id) {
+              authorId = author._id.toString();
+            }
+          }
+          let authorBookResult;
+          if (previousAuthorId) {
+            if (!authorId) {
+              authorBookResult = await authorsBooksCollection.findOne(
+                {
+                  authorId: previousAuthorId,
+                },
+              );
+
+              if (authorBookResult.booksIds) {
+                authorBookResult.booksIds = authorBookResult.booksIds
+                  .filter((item) => item !== id);
+
+                await authorsBooksCollection.updateOne(
+                  {
+                    authorId: previousAuthorId,
+                  },
+                  {
+                    $set:
+                    {
+                      booksIds: authorBookResult.booksIds,
+                    },
+                  },
+                );
+              }
+            } else if (previousAuthorId !== authorId) {
+              authorBookResult = await authorsBooksCollection.findOne(
+                {
+                  authorId: previousAuthorId,
+                },
+              );
+
+              if (authorBookResult.booksIds) {
+                authorBookResult.booksIds = authorBookResult.booksIds
+                  .filter((item) => item !== id);
+
+                await authorsBooksCollection.updateOne(
+                  {
+                    authorId: previousAuthorId,
+                  },
+                  {
+                    $set:
+                    {
+                      booksIds: authorBookResult.booksIds,
+                    },
+                  },
+                );
+              }
+              authorBookResult = await authorsBooksCollection.findOne(
+                {
+                  authorId,
+                },
+              );
+              if (authorBookResult) {
+                if (!authorBookResult.booksIds) {
+                  authorBookResult.booksIds = [];
+                }
+                authorBookResult.booksIds.push(id);
+
+                await authorsBooksCollection.updateOne(
+                  {
+                    authorId,
+                  },
+                  {
+                    $set:
+                    {
+                      booksIds: authorBookResult.booksIds,
+                    },
+                  },
+                );
+              } else {
+                const createAuthorBooks = {
+                  authorId,
+                  booksIds: [id],
+                };
+                await authorsBooksCollection.insertOne(createAuthorBooks);
+              }
+            }
+          } else if (!previousAuthorId && authorId) {
+            authorBookResult = await authorsBooksCollection.findOne(
+              {
+                authorId,
+              },
+            );
+            if (authorBookResult) {
+              if (!authorBookResult.booksIds) {
+                authorBookResult.booksIds = [];
+              }
+              authorBookResult.booksIds.push(id);
+
+              await authorsBooksCollection.updateOne(
+                {
+                  authorId,
+                },
+                {
+                  $set:
+                  {
+                    booksIds: authorBookResult.booksIds,
+                  },
+                },
+              );
+            } else {
+              const createAuthorBooks = {
+                authorId,
+                booksIds: [id],
+              };
+              await authorsBooksCollection.insertOne(createAuthorBooks);
+            }
+          }
+
+          res.redirect(`/books/${id}`);
+        } catch (err) {
+          debug(err.stack);
+        }
+        client.close();
+      }());
+    }
+  }
 
   return {
     middleware,
@@ -282,8 +543,10 @@ function adminController(nav) {
     updateRecommendedBooks,
     getAddAuthor,
     addAuthor,
+    updateAuthorById,
     getAddBook,
     addBook,
+    updateBookById,
   };
 }
 

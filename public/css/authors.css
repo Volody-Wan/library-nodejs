@@ -143,11 +143,6 @@ body {
   display: grid;
   text-align: left;
 }
-.right-button-div {
-  text-align: -webkit-right;
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
 .search-results-container {
   overflow-y: auto;
   max-height: 300px;

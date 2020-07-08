@@ -14,50 +14,154 @@
   <link href="/css/styles.css" rel="stylesheet">
   <link href="/css/books.css" rel="stylesheet">
 
+  <script src="https://cdn.tiny.cloud/1/b3djhg5898pm308mxe9r7uprjt4x6pz7eivf62i36lwkp1dy/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: '#bookDescription',
+      menubar: false,
+      height: '500px',
+    });
+  </script>
 </head>
 
 <body>
   <%- include("../partials/header") %>
 
   <div id="content" class="container jumbotron book-jumbotron">
-    <div class="row text-center">
-      <div class="book-card col-xl-3">
-        <img class="book-detail-image card-img-top" src="<%= book.image %>" alt="">
-        <div class="card-body">
-          <h4 class="card-title"><i><%= book.title %></i></h4>
-          <p class="card-text"><b>Author: </b>
-            <% if (authorId) { %>
-            <a href="/authors/<%= authorId %>">
-              <% } %>
-              <%= book.author %>
+    <% if (userRole === 'admin') { %>
+    <div class="edit-button">
+      <input class="btn btn-outline-dark" type="submit" value="Edit" onclick="updateContent()">
+    </div>
+    <% } %>
+    <div id="articleContent">
+      <div class="row text-center">
+        <div class="book-card col-xl-3">
+          <img class="book-detail-image card-img-top" src="<%= book.image %>" alt="">
+          <div class="card-body">
+            <h4 class="card-title"><i><%= book.title %></i></h4>
+            <p class="card-text"><b>Author: </b>
               <% if (authorId) { %>
-            </a>
-            <% } %>
-          </p>
-          <p class="card-text"><b>Publication date: </b> <%= book.published %></p>
-          <p class="card-text"><b>Language: </b> <%= book.language %></p>
-          <p class="card-text"><b>Genre: </b> <%= book.genre %></p>
+              <a href="/authors/<%= authorId %>">
+                <% } %>
+                <%= book.author %>
+                <% if (authorId) { %>
+              </a>
+              <% } %>
+            </p>
+            <p class="card-text"><b>Publication date: </b> <%= book.published %></p>
+            <p class="card-text"><b>Language: </b> <%= book.language %></p>
+            <p class="card-text"><b>Genre: </b> <%= book.genre %></p>
+          </div>
+        </div>
+        <div class="bookDescription col-xl-9">
+          <%- book.description %>
         </div>
       </div>
-      <div class="bookDescription col-xl-9">
-        <%- book.description %>
+      <% if (book.references) { %>
+      <div class="row references-label">
+        <label>References:</label>
+        <ul>
+          <% for (let i = 0; i < book.references.length; i++) { %>
+          <li>
+            <a href="<%= book.references[i] %>"> <%= book.references[i] %></a></li>
+          <br>
+          <% } %>
+        </ul>
       </div>
+      <% } %>
     </div>
-    <% if (book.references) { %>
-    <div class="row references-label">
-      <label>References:</label>
-      <ul>
-        <% for (let i = 0; i < book.references.length; i++) { %>
-        <li>
-          <a href="<%= book.references[i] %>"> <%= book.references[i] %></a></li>
-        <br>
-        <% } %>
-      </ul>
+    <% if (userRole === 'admin') { %>
+    <div id="articleContentUpdate">
+      <form action="#" method="post">
+        <div class="row text-center">
+          <div class="book-card col-xl-3">
+            <div class="form-group text-align-left full-width required">
+              <label for="bookImage" class="control-label">Image:</label>
+              <input type="text" name="bookImage" class="form-control" oninput="updatePicture(this.value)"
+                value="<%= book.image %>" required>
+            </div>
+            <div class="form-group text-align-left full-width required">
+              <img id="editBookImage" class="book-detail-image card-img-top" src="<%= book.image %>" alt="">
+            </div>
+            <div class="card-body">
+              <div class="form-group text-align-left full-width required">
+                <label for="bookTitle" class="control-label">Title:</label>
+                <input type="text" name="bookTitle" class="form-control" value="<%= book.title %>" required>
+              </div>
+              <div class="form-group text-align-left full-width required">
+                <label for="bookAuthor" class="control-label">Author:</label>
+                <input type="text" id="bookAuthor" name="bookAuthor" class="form-control"
+                  onkeyup="searchForAuthor(this.value)" value="<%= book.author %>" required>
+                <input type="text" name="previousBookAuthorId" class="form-control" value="<%= authorId %>" hidden>
+                <input type="text" id="bookAuthorId" name="bookAuthorId" class="form-control" value="<%= authorId %>" hidden>
+                <div id="searchResultsContainer" class="search-results-container-admin">
+
+                </div>
+              </div>
+              <div class="form-group text-align-left full-width required">
+                <label for="bookPublication" class="control-label">Publication date (free format):</label>
+                <input type="text" name="bookPublication" class="form-control" value="<%= book.published %>" required>
+              </div>
+              <div class="form-group text-align-left full-width required">
+                <label for="bookLanguage" class="control-label">Language:</label>
+                <input type="text" name="bookLanguage" class="form-control" value="<%= book.language %>" required>
+              </div>
+              <div class="form-group text-align-left full-width required">
+                <label for="bookGenre" class="control-label">Genre:</label>
+                <input type="text" name="bookGenre" class="form-control" value="<%= book.genre %>" required>
+              </div>
+            </div>
+          </div>
+          <div class="form-group text-align-left col-xl-9 bookDescription col-xl-9 required">
+            <div class="row">
+              <label class="col-md-2 col-sm-3 col-xs-12 control-label">Description:</label>
+            </div>
+            <div id="descriptionDiv">
+              <textarea id="bookDescription" name="bookDescription"
+                class="full-width"><%- book.description %></textarea>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <div class="row">
+              <label class="col-md-2 col-sm-3 col-xs-12 control-label">References:</label>
+            </div>
+            <ul id="unorderedEditReferenceList">
+              <% if (book.references) { %>
+              <% for (let i = 0; i < book.references.length; i++) { %>
+              <li class="full-width">
+                <input class="full-width margin-top-10 form-control" name="editReferenceList"
+                  value="<%= book.references[i] %>">
+              </li>
+              <% } %>
+              <% } else { %>
+              <li class="full-width">
+                <input class="full-width margin-top-10 form-control" name="editReferenceList" value="">
+              </li>
+              <% } %>
+            </ul>
+            <div class="reference-buttons">
+              <input class="btn btn-outline-danger margin-top-10" type="button" value="Remove Reference"
+                onclick="removeReference()">
+              <input class="btn btn-outline-success margin-top-10" type="button" value="Add Reference"
+                onclick="addReference()">
+            </div>
+            <div class="right-button-div">
+              <input class="btn btn-outline-dark" type="submit" value="Update Book">
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
     <% } %>
   </div>
 
   <%- include("../partials/footer") %>
+  <% if (userRole === 'admin') { %>
+  <script src="/js/admin/editCommon.js"></script>
+  <script src="/js/admin/editBook.js"></script>
+  <% } %>
+
 
 </body>
 

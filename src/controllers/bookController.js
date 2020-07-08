@@ -115,6 +115,7 @@ function bookController(nav) {
             title: 'Books',
             book,
             authorId,
+            userRole: req.user.role,
           });
       } catch (err) {
         debug(err.stack);

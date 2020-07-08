@@ -198,3 +198,12 @@ h3 {
 .reference-buttons {
   text-align: -webkit-right;
 }
+.edit-button {
+  text-align: -webkit-right;
+  margin-bottom: 30px;
+}
+.right-button-div {
+  text-align: -webkit-right;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
