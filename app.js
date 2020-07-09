@@ -6,32 +6,35 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 
 const { NAV } = require('./src/constants/constants.js');
 
 const app = express();
-const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;
+
+const sess = {
+  secret: 'librarianAlexandrian',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {},
+  store: new MongoStore({
+    url: 'mongodb://localhost/librarian',
+  }),
+};
+
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1);
+  sess.cookie.secure = true;
+}
 
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session(
-  {
-    secret: 'librarianAlexandrian',
-    resave: false,
-    saveUninitialized: false,
-  },
-));
+app.use(session(sess));
 app.use(flash());
-
-if (app.get('env') === 'production') {
-  app.set('trust proxy', 1);
-  session.cookie.secure = true;
-}
-
 require('./src/config/passport.js')(app);
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -71,6 +74,6 @@ app.route('/')
     }
   });
 
-server.listen(port, () => {
+app.listen(port, () => {
   debug(`listening on port ${chalk.blue(port)}`);
 });
