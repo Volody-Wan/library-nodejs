@@ -32,10 +32,10 @@ function searchAuthors(value) {
         $searchResults.append(`<a  class="searchLink" href="/authors/${author._id}"><p>${author.name}</p></a>`);
       });
     } else {
-      $searchResults.append('<p>No match</p>');
+      $searchResults.append('<a class="searchLink"><p>No match</p></a>');
     }
   }).catch((err) => {
-    $searchResults.append('<p>No match</p>');
+    $searchResults.append('<a class="searchLink"><p>No match</p></a>');
   });
 }
 function searchBooks(value) {
@@ -43,12 +43,12 @@ function searchBooks(value) {
     if (req.data.length) {
       $searchResults.fadeIn();
       req.data.forEach((book) => {
-        $searchResults.append(`<a  class="searchLink" href="/books/${book._id}"><p>${book.title}</p></a>`);
+        $searchResults.append(`<a class="searchLink" href="/books/${book._id}"><p>${book.title}</p></a>`);
       });
     } else {
-      $searchResults.append('<p>No match</p>');
+      $searchResults.append('<a class="searchLink"><p>No match</p></a>');
     }
   }).catch((err) => {
-    $searchResults.append('<p>No match</p>');
+    $searchResults.append('<a class="searchLink"><p>No match</p></a>');
   });
 }

@@ -94,33 +94,57 @@
           <% if (userRole === 'admin') { %>
           <div id="articleContentUpdate" class="full-width">
             <form action="#" method="post">
-              <label class="full-width"><b>Image:</b><input class="full-width form-control" name="updatedAuthorImage"
-                  value="<%= author.image %>" oninput="updatePicture(this.value)"></label>
-              </br>
-              <img id="editImage" class="card-img-top portrait" src="<%= author.image %>" alt="">
+              <div class="form-group text-align-left full-width required">
+                <label for="updatedAuthorImage" class="control-label">Image:</label>
+                <input type="text" name="updatedAuthorImage" class="full-width form-control"
+                  oninput="updatePicture(this.value)" value="<%= author.image %>" required>
+              </div>
+              <div class="form-group full-width required">
+                <img id="editBookImage" class="card-img-top portrait" src="<%= author.image %>" alt="">
+              </div>
               <div class="card-body">
-                <h4 class="card-title"><input class="maximum-width form-control" value="<%= author.name %>"
-                    name="updateAuthorName">
-                </h4>
+                <div class="form-group text-align-left full-width required">
+                  <label for="updateAuthorName" class="control-label">Full Name:</label>
+                  <input class="maximum-width form-control" value="<%= author.name %>" name="updateAuthorName" required>
+                </div>
                 <div class="row">
                   <div class="col-md-3 col-lg-3 col-xl-4"></div>
                   <div class="card-body dateLabel col-md-6 col-lg-6 col-xl-6">
-                    <label><b>Born:</b><input class="maximum-width form-control" value="<%= author.birth %>"
-                        name="updateAuthorBirthDay"></label>
-                    <label><b>Died:</b><input class="maximum-width form-control" value="<%= author.death %>"
-                        name="updateAuthorDeathDay"></label>
-                    <label><b>Nationality:</b><input class="maximum-width form-control"
-                        value="<%= author.nationality %>" name="updateAuthorNationality"></label>
-                    <label><b>Language:</b><input class="maximum-width form-control" value="<%= author.language %>"
-                        name="updateAuthorLanguage"></label>
-                    <label><b>Genre(s):</b><input class="maximum-width form-control" value="<%= author.genre %>"
-                        name="updateAuthorGenres"></label>
+                    <div class="form-group text-align-left full-width required">
+                      <label for="updateAuthorBirthDay" class="control-label">Born:</label>
+                      <input class="maximum-width form-control" value="<%= author.birth %>" name="updateAuthorBirthDay"
+                        required>
+                      <p class="help-block">e.g. Year-month-day: 1826-12-31</p>
+                    </div>
+                    <div class="form-group text-align-left full-width">
+                      <label for="updateAuthorDeathDay" class="control-label">Died:</label>
+                      <input class="maximum-width form-control" value="<%= author.death %>" name="updateAuthorDeathDay">
+                      <p class="help-block">e.g. Year-month-day: 2020-02-22</p>
+                    </div>
+                    <div class="form-group text-align-left full-width required">
+                      <label for="updateAuthorNationality" class="control-label">Nationality:</label>
+                      <input class="maximum-width form-control" value="<%= author.nationality %>"
+                        name="updateAuthorNationality" required>
+                    </div>
+                    <div class="form-group text-align-left full-width required">
+                      <label for="updateAuthorLanguage" class="control-label">Language:</label>
+                      <input class="maximum-width form-control" value="<%= author.language %>"
+                        name="updateAuthorLanguage" required>
+                    </div>
+                    <div class="form-group text-align-left full-width required">
+                      <label for="updateAuthorGenres" class="control-label">Genre(s):</label>
+                      <input class="maximum-width form-control" value="<%= author.genre %>" name="updateAuthorGenres"
+                        required>
+                    </div>
                   </div>
                   <div class="col-md-3 col-lg-3 col-xl-2">
                   </div>
                 </div>
-                <div id="biographyDiv">
-                  <textarea id="updateAuthorBiography" name="updateAuthorBiography"><%- author.biography %></textarea>
+                <div class="form-group text-align-left full-width required">
+                  <label for="updateAuthorBiography" class="control-label">Biography:</label>
+                  <div id="biographyDiv">
+                    <textarea id="updateAuthorBiography" name="updateAuthorBiography"><%- author.biography %></textarea>
+                  </div>
                 </div>
               </div>
               <div id="searchContainer" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -138,8 +162,8 @@
                   <% if (books) { %>
                   <% for (let i = 0; i < books.length; i++) { %>
                   <div id="<%= books[i].id %>-div" class="update-book-ref horizontal-container">
-                    <input class="btn btn-outline-danger full-width row sm-remove-button book-image" type="button" value="Remove"
-                      onclick="removeBookFromAuthor('<%= books[i].id %>')">
+                    <input class="btn btn-outline-danger full-width row sm-remove-button book-image" type="button"
+                      value="Remove" onclick="removeBookFromAuthor('<%= books[i].id %>')">
                     <input id="<%= books[i].id %>" class="book-image row" type="image" src="<%= books[i].image %>"
                       disabled>
                     <input name="editAuthorBooks" value="<%= books[i].id %>" hidden>
@@ -187,8 +211,8 @@
 
   <script src="/js/author/authorView.js"></script>
   <% if (userRole === 'admin') { %>
-    <script src="/js/admin/editCommon.js"></script>
-    <script src="/js/admin/editAuthor.js"></script>
+  <script src="/js/admin/editCommon.js"></script>
+  <script src="/js/admin/editAuthor.js"></script>
   <% } %>
 
 </body>

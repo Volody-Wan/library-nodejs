@@ -5,11 +5,14 @@ ul {
 blockquote {
   margin: 0rem 4rem 0rem;
 }
+h1 {
+  font-family: Baskerville;
+}
 h2 {
-  font-size: 1.5rem;
+  font-family: Baskerville;
 }
 h3 {
-  font-size: 1.25rem;
+  font-family: Baskerville;
 }
 .searchBox {
   height: 40px;

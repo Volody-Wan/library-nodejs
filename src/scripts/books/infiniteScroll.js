@@ -38,7 +38,7 @@ function getNextPage() {
     }).catch((err) => {
       console.log(err);
     });
-  }, 250);
+  }, 150);
 }
 // Detect when scrolled to bottom.
 $(window).scroll(() => {
