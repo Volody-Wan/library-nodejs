@@ -1,5 +1,6 @@
 const { MongoClient } = require('mongodb');
 const debug = require('debug')('app:authController');
+require('dotenv').config();
 
 const {
   USERNAMEEXISTS,
@@ -18,8 +19,8 @@ function authController() {
       passwordSignup,
       confirmPasswordSignup,
     } = req.body;
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'librarian';
+    const url = process.env.DB_HOST;
+    const dbName = process.env.DB_NAME;
 
     (async function addUser() {
       let client;

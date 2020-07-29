@@ -1,6 +1,7 @@
 const { MongoClient, ObjectID } = require('mongodb');
 const debug = require('debug')('app:authorsController');
 const dateformat = require('dateformat');
+require('dotenv').config();
 
 function authorsController(nav) {
   function middleware(req, res, next) {
@@ -12,8 +13,8 @@ function authorsController(nav) {
   }
 
   function getAuthors(req, res) {
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'librarian';
+    const url = process.env.DB_HOST;
+    const dbName = process.env.DB_NAME;
 
     (async function mongo() {
       let client;
@@ -40,8 +41,8 @@ function authorsController(nav) {
 
   function getAuthorById(req, res) {
     const { id } = req.params;
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'librarian';
+    const url = process.env.DB_HOST;
+    const dbName = process.env.DB_NAME;
 
     (async function mongo() {
       let client;

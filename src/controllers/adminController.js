@@ -4,6 +4,7 @@ const { MongoClient, ObjectID } = require('mongodb');
 const commonService = require('../services/commonService')();
 const authorService = require('../services/authorService')();
 const bookService = require('../services/bookService')();
+require('dotenv').config();
 
 function adminController(nav) {
   function middleware(req, res, next) {
@@ -27,8 +28,8 @@ function adminController(nav) {
       });
   }
   function getRecommendedBooks(req, res) {
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'librarian';
+    const url = process.env.DB_HOST;
+    const dbName = process.env.DB_NAME;
 
     (async function mongo() {
       let client;
@@ -96,8 +97,8 @@ function adminController(nav) {
       });
     }
 
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'librarian';
+    const url = process.env.DB_HOST;
+    const dbName = process.env.DB_NAME;
 
     (async function mongo() {
       let client;
@@ -146,8 +147,8 @@ function adminController(nav) {
     if (isAuthorInvalid || isAuthorBooksInvalid) {
       res.json(error);
     } else {
-      const url = 'mongodb://localhost:27017';
-      const dbName = 'librarian';
+      const url = process.env.DB_HOST;
+      const dbName = process.env.DB_NAME;
 
       (async function mongo() {
         let client;
@@ -205,8 +206,8 @@ function adminController(nav) {
     } else {
       const authorBooks = commonService.convertAuthorBooks(req.body.editAuthorBooks);
 
-      const url = 'mongodb://localhost:27017';
-      const dbName = 'librarian';
+      const url = process.env.DB_HOST;
+      const dbName = process.env.DB_NAME;
 
       (async function mongo() {
         let client;
@@ -278,8 +279,8 @@ function adminController(nav) {
     if (isBookInvalid) {
       res.json(error);
     } else {
-      const url = 'mongodb://localhost:27017';
-      const dbName = 'librarian';
+      const url = process.env.DB_HOST;
+      const dbName = process.env.DB_NAME;
 
       (async function mongo() {
         let client;
@@ -369,8 +370,8 @@ function adminController(nav) {
     if (isBookInvalid) {
       res.json(error);
     } else {
-      const url = 'mongodb://localhost:27017';
-      const dbName = 'librarian';
+      const url = process.env.DB_HOST;
+      const dbName = process.env.DB_NAME;
 
       (async function mongo() {
         let client;

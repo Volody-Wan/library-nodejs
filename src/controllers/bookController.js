@@ -1,5 +1,6 @@
 const { MongoClient, ObjectID } = require('mongodb');
 const debug = require('debug')('app:bookController');
+require('dotenv').config();
 
 function bookController(nav) {
   function middleware(req, res, next) {
@@ -11,8 +12,8 @@ function bookController(nav) {
   }
 
   function getBooks(req, res) {
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'librarian';
+    const url = process.env.DB_HOST;
+    const dbName = process.env.DB_NAME;
     const { page } = req.query;
 
     (async function mongo() {
@@ -93,8 +94,8 @@ function bookController(nav) {
 
   function getBookById(req, res) {
     const { id } = req.params;
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'librarian';
+    const url = process.env.DB_HOST;
+    const dbName = process.env.DB_NAME;
 
     (async function mongo() {
       let client;

@@ -3,6 +3,7 @@ const { Strategy } = require('passport-local');
 const { MongoClient } = require('mongodb');
 const debug = require('debug')('app:local.strategy');
 const { INVALIDUSER, INVALIDPASSWORD } = require('../../constants/constants.js');
+require('dotenv').config();
 
 function localStrategy() {
   passport.use(new Strategy(
@@ -11,8 +12,8 @@ function localStrategy() {
       passwordField: 'password',
       passReqToCallback: true,
     }, (req, username, password, done) => {
-      const url = 'mongodb://localhost:27017';
-      const dbName = 'librarian';
+      const url = process.env.DB_HOST;
+      const dbName = process.env.DB_NAME;
 
       (async function mongo() {
         let client;
@@ -26,7 +27,7 @@ function localStrategy() {
           const user = await col.findOne({
             $or: [{ username: username.toLowerCase() }, { email: username.toLowerCase() }],
           });
-
+          
           if (user !== null) {
             if (user.password === password) {
               done(null, user);

@@ -8,11 +8,17 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
+const process = require('process');
+const http = require('http');
+const stoppable = require('stoppable');
+require('dotenv').config();
 
 const { NAV } = require('./src/constants/constants.js');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+const server = stoppable(http.createServer(app), 2500);
 
 const sess = {
   secret: 'librarianAlexandrian',
@@ -20,11 +26,11 @@ const sess = {
   saveUninitialized: false,
   cookie: {},
   store: new MongoStore({
-    url: 'mongodb://localhost/librarian',
+    url: `${process.env.DB_HOST}\\${process.env.DB_NAME}`,
   }),
 };
 
-if (app.get('env') === 'production') {
+if (process.env.NOVE_ENV === 'production') {
   app.set('trust proxy', 1);
   sess.cookie.secure = true;
 }
@@ -56,6 +62,7 @@ const profileRouter = require('./src/routes/profileRoutes')(NAV);
 const authorsRouter = require('./src/routes/authorsRoutes')(NAV);
 const searchRouter = require('./src/routes/searchRoutes')(NAV);
 const adminRoutes = require('./src/routes/adminRoutes')(NAV);
+const healthRoutes = require('./src/routes/healthRoutes')();
 
 app.use('/books', bookRouter);
 app.use('/auth', authRouter);
@@ -64,6 +71,7 @@ app.use('/profile', profileRouter);
 app.use('/authors', authorsRouter);
 app.use('/search', searchRouter);
 app.use('/admin', adminRoutes);
+app.use('/health', healthRoutes);
 
 app.route('/')
   .all((req, res) => {
@@ -74,6 +82,24 @@ app.route('/')
     }
   });
 
-app.listen(port, () => {
+server.listen(port, () => {
   debug(`listening on port ${chalk.blue(port)}`);
 });
+
+process.on('SIGINT', function onSigint() {
+  app.shutdown();
+});
+
+process.on('SIGTERM', function onSigterm() {
+  app.shutdown();
+});
+
+app.shutdown = function () {
+  server.close(function onServerClosed(err) {
+    if (err) {
+      log.error('An error occurred while closing the server: ' + err);
+      process.exitCode = 1;
+    }
+  });
+  process.exit();
+};

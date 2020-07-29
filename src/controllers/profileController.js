@@ -1,5 +1,6 @@
 const { MongoClient, ObjectID } = require('mongodb');
 const debug = require('debug')('app:profileController');
+require('dotenv').config();
 
 function profileController(nav) {
   function middleware(req, res, next) {
@@ -10,8 +11,8 @@ function profileController(nav) {
     }
   }
   function getProfile(req, res) {
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'librarian';
+    const url = process.env.DB_HOST;
+    const dbName = process.env.DB_NAME;
 
     (async function mongo() {
       let client;
@@ -23,7 +24,6 @@ function profileController(nav) {
         const col = db.collection('users');
         // eslint-disable-next-line no-underscore-dangle
         const user = await col.findOne({ _id: new ObjectID(req.user._id) });
-
         res.render('profile/profileView', {
           nav,
           title: 'Profile',
@@ -44,8 +44,8 @@ function profileController(nav) {
       twitter,
       linkedIn,
     } = req.body;
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'librarian';
+    const url = process.env.DB_HOST;
+    const dbName = process.env.DB_NAME;
 
     (async function addUser() {
       let client;
