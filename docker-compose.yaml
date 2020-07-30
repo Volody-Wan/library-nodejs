@@ -3,12 +3,13 @@ services:
   alexandria_library:
     container_name: alexandria_library
     restart: always
-    build: .
+    build: ./
     ports:
-      - "3000:3000"
+      - 3000:3000
     links:
-      - mongodb_container
-  mongodb_container:
+      - mongo
+  mongo:
+    container_name: mongo
     image: mongo:latest
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
